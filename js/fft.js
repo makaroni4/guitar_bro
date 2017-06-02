@@ -24,8 +24,6 @@ function AudioProcessor() {
   var that = this;
 
   this.requestUserMedia = function () {
-    var that = this;
-
     navigator.getUserMedia({audio:true}, (stream) => {
       that.sendingAudioData = true;
       that.stream = stream;

@@ -1,0 +1,28 @@
+.real-guitar-hero {
+  display: flex;
+}
+
+.real-guitar-hero__start-button {
+  margin-left: 20px;
+}
+
+.start-game {
+  display: block;
+  padding: 10px;
+
+  border: none;
+  border-radius: 2px;
+
+  background-color: #23F0C7;
+
+  color: #FFF;
+
+  outline: none;
+}
+
+.game-canvas {
+  width: 800px;
+  height: 500px;
+
+  border: 2px solid #00C49E;
+}
