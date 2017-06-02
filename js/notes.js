@@ -32,17 +32,18 @@ $(function() {
   // rock variables
   var rockWidth = 50;
   var rockHeight = 50;
-  var totalRocks = 1;
+  var totalRocks = 2;
+  var rockDistance = canvas.height / totalRocks;
   var rocks = [];
   for (var i = 0; i < totalRocks; i++) {
-    addRock();
+    addRock(i);
   }
 
   function pickRandom(array) {
     return array[Math.floor(Math.random() * array.length)];
   }
 
-  function addRock() {
+  function addRock(rockIndex) {
     var note = pickRandom(NOTES);
     var rock = {
       width: rockWidth,
@@ -50,18 +51,27 @@ $(function() {
       note: note,
       speed: 3
     }
-    resetRock(rock);
+    resetRock(rock, rockIndex);
     rocks.push(rock);
   }
 
-  function resetRock(rock) {
+  function resetRock(rock, rockIndex) {
     rock.x = Math.random() * (canvas.width - rockWidth);
-    rock.y = 15 + Math.random() * 30;
+    rock.y = -rockIndex * rockDistance
     rock.note = pickRandom(NOTES);
   }
 
   document.onkeydown = function (event) {
-    var rock = rocks[0];
+    var rockIndex = rocks.findIndex(function(r) {
+      return r.y >= canvas.height - blockHeight - rockHeight;
+    });
+
+    if(rockIndex === -1) {
+      return;
+    }
+
+    var rock = rocks[rockIndex];
+
     if(!isColliding(block, rock)) {
       return;
     }
@@ -74,7 +84,7 @@ $(function() {
       score -= 10;
     }
 
-    resetRock(rock);
+    resetRock(rock, 0);
   }
 
   function animate() {
@@ -88,7 +98,7 @@ $(function() {
       rock.y += rock.speed;
 
       if (rock.y > canvas.height) {
-        resetRock(rock);
+        resetRock(rock, 0);
         score -= 10;
       }
     }
@@ -138,12 +148,12 @@ $(function() {
     block.x = 0;
 
     for (var i = 0; i < rocks.length; i++) {
-      resetRock(rocks[i]);
+      resetRock(rocks[i], i);
     }
 
     if(!continueAnimating) {
-        continueAnimating = true;
-        animate();
+      continueAnimating = true;
+      animate();
     };
   });
 });
