@@ -4,16 +4,22 @@
   <title>Real guitar hero</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="js/fft.js" type="text/javascript" charset="utf-8" async defer></script>
+  <script src="js/notes.js" type="text/javascript" charset="utf-8" async defer></script>
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
   <div class="real-guitar-hero">
     <div class="real-guitar-hero__canvas">
-      <canvas class="game-canvas"></canvas>
+      <canvas id="game-canvas" width="800" height="500"></canvas>
     </div>
 
-    <div class="real-guitar-hero__start-button">
-      <button class="start-game">Start Game</button>
+    <div class="real-guitar-hero__controls">
+      <div class="real-guitar-hero__start-button">
+        <button class="start-game">Start Game</button>
+      </div>
+
+      <div class="real-guitar-hero__score">
+      </div>
     </div>
   </div>
 </body>

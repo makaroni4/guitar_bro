@@ -2,8 +2,16 @@
   display: flex;
 }
 
-.real-guitar-hero__start-button {
+.real-guitar-hero__controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin-left: 20px;
+}
+
+.real-guitar-hero__score {
+  font-size: 24px;
+  color: #0654C8;
 }
 
 .start-game {
@@ -18,11 +26,9 @@
   color: #FFF;
 
   outline: none;
+  cursor: pointer;
 }
 
-.game-canvas {
-  width: 800px;
-  height: 500px;
-
+#game-canvas {
   border: 2px solid #00C49E;
 }
