@@ -84,7 +84,9 @@ $(function() {
       score -= 10;
     }
 
+    var currentY = rock.y;
     resetRock(rock, 0);
+    rock.y -= canvas.height - currentY - rockHeight;
   }
 
   function animate() {
@@ -99,6 +101,7 @@ $(function() {
 
       if (rock.y > canvas.height) {
         resetRock(rock, 0);
+        rock.y -= rockHeight;
         score -= 10;
       }
     }
