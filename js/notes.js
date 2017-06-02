@@ -1,4 +1,19 @@
 $(function() {
+  // Returns an random integer, positive or negative
+  // between the given value
+  function randInt(min, max, positive) {
+    let num;
+    if (positive === false) {
+      num = Math.floor(Math.random() * max) - min;
+      num *= Math.floor(Math.random() * 2) === 1 ? 1 : -1;
+    } else {
+      num = Math.floor(Math.random() * max) + min;
+    }
+
+    return num;
+
+  }
+
   var $score = $(".real-guitar-hero__score");
   var NOTES = ["Q", "W", "E", "R", "T", "Y"];
   var NOTE_CODES = {
@@ -39,6 +54,89 @@ $(function() {
     addRock(i);
   }
 
+  // particles options
+  const particlesPerExplosion = 25;
+  const particlesMinSpeed     = 5;
+  const particlesMaxSpeed     = 10;
+  const particlesMinSize      = 2;
+  const particlesMaxSize      = 4;
+  const explosions            = [];
+
+  // Draw explosion(s)
+  // https://stackoverflow.com/questions/43498923/html5-canvas-particle-explosion
+  function drawExplosion() {
+    if (explosions.length === 0) {
+      return;
+    }
+
+    for (let i = 0; i < explosions.length; i++) {
+
+      const explosion = explosions[i];
+      const particles = explosion.particles;
+
+      if (particles.length === 0) {
+        explosions.splice(i, 1);
+        return;
+      }
+
+      const particlesAfterRemoval = particles.slice();
+      for (let ii = 0; ii < particles.length; ii++) {
+
+        const particle = particles[ii];
+
+        // Check particle size
+        // If 0, remove
+        if (particle.size <= 0) {
+          particlesAfterRemoval.splice(ii, 1);
+          continue;
+        }
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, Math.PI * 2, 0, false);
+        ctx.closePath();
+        ctx.fillStyle = 'rgb(' + particle.r + ',' + particle.g + ',' + particle.b + ')';
+        ctx.fill();
+
+        // Update
+        particle.x += particle.xv;
+        particle.y += particle.yv;
+        particle.size -= .1;
+      }
+
+      explosion.particles = particlesAfterRemoval;
+    }
+  }
+
+  // Explosion
+  function explosion(x, y, correctAnswer) {
+    this.particles = [];
+
+    for (let i = 0; i < particlesPerExplosion; i++) {
+      this.particles.push(
+        new particle(x, y, correctAnswer)
+      );
+    }
+  }
+
+  // Particle
+  function particle(x, y, correctAnswer) {
+    this.x    = x;
+    this.y    = y;
+    this.xv   = randInt(particlesMinSpeed, particlesMaxSpeed, false);
+    this.yv   = randInt(particlesMinSpeed, particlesMaxSpeed, false);
+    this.size = randInt(particlesMinSize, particlesMaxSize, true);
+
+    if(correctAnswer) {
+      this.r    = randInt(78, 98);
+      this.g    = 221;
+      this.b    = randInt(134, 154);
+    } else {
+      this.r    = 237;
+      this.g    = randInt(27, 47);
+      this.b    = randInt(68, 88);
+    }
+  }
+
   function pickRandom(array) {
     return array[Math.floor(Math.random() * array.length)];
   }
@@ -77,12 +175,17 @@ $(function() {
     }
 
     var key = NOTE_CODES[event.keyCode];
+    var correctAnswer = key === rock.note;
 
-    if(key === rock.note) {
+    if(correctAnswer) {
       score += 10;
     } else {
       score -= 10;
     }
+
+    explosions.push(
+      new explosion(rock.x, rock.y, correctAnswer)
+    );
 
     var currentY = rock.y;
     resetRock(rock, 0);
@@ -100,9 +203,14 @@ $(function() {
       rock.y += rock.speed;
 
       if (rock.y > canvas.height) {
+        score -= 10;
+
+        explosions.push(
+          new explosion(rock.x, canvas.height - 5, false)
+        );
+
         resetRock(rock, 0);
         rock.y -= rockHeight;
-        score -= 10;
       }
     }
 
@@ -144,6 +252,8 @@ $(function() {
     }
 
     $score.text(score);
+
+    drawExplosion();
   }
 
   $(".start-game").on("click", function () {
