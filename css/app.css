@@ -9,19 +9,29 @@
   margin-left: 20px;
 }
 
-.real-guitar-hero__metronome-input-label {
+.real-guitar-hero__bpm-input-label {
   display: block;
 
   color: grey;
 }
 
-.real-guitar-hero__metronome-input {
+.real-guitar-hero__bpm-input {
   display: block;
   width: 150px;
   padding: 8px;
 
   font-size: 24px;
   line-height: 32px;
+}
+
+.real-guitar-hero__metronome-enabled-label {
+  display: block;
+
+  color: grey;
+}
+
+.real-guitar-hero__metronome-enabled {
+
 }
 
 .real-guitar-hero__score {

@@ -342,7 +342,7 @@ $(function() {
   }
 
   $(".start-game").on("click", function () {
-    var rockFallingTime = 60 * 4 / $(".real-guitar-hero__metronome-input").val();
+    var rockFallingTime = 60 * 4 / $(".real-guitar-hero__bpm-input").val();
     var fps = canvas.height / (rockFallingTime * rockSpeed);
 
     fpsInterval = 1000 / fps;
