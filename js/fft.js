@@ -95,8 +95,6 @@ function AudioProcessor() {
     let min_freq_ind = Math.round(300 / freq_step);
     let max_freq_ind = Math.round(670 / freq_step);
 
-    // console.log(freq_step, min_freq_ind, max_freq_ind)
-
     // Fill up the data.
 
     that.analyser.getFloatTimeDomainData(that.timeBuffer);
