@@ -23,9 +23,8 @@ $(function() {
   var ctx = canvas.getContext("2d");
 
   // game variables
-  var startingScore = 50;
   var continueAnimating = false;
-  var score;
+  var score = 50;
 
   // block variables
   var blockWidth = canvas.width;
@@ -138,20 +137,19 @@ $(function() {
   }
 
   function addRock(rockIndex) {
-    var note = pickRandom(NOTES);
     var rock = {
       width: rockWidth - pegWidth,
       height: rockHeight,
-      note: note,
       speed: 2
     }
-    resetRock(rock, rockIndex);
+
+    resetRock(rock, -rockIndex * rockDistance);
     rocks.push(rock);
   }
 
-  function resetRock(rock, rockIndex) {
+  function resetRock(rock, newY) {
     rock.note = pickRandom(NOTES);
-    rock.y = -rockIndex * rockDistance
+    rock.y = newY;
 
     var noteIndex = NOTES.findIndex(function(note) {
       return note == rock.note;
@@ -180,8 +178,6 @@ $(function() {
 
     var correctAnswer = note === rock.note;
 
-
-
     if(correctAnswer) {
       score += 10;
     } else {
@@ -193,8 +189,8 @@ $(function() {
     );
 
     var currentY = rock.y;
-    resetRock(rock, 0);
-    rock.y -= canvas.height - currentY - rockHeight;
+    var minRockY = Math.min.apply(Math, rocks.map(function(r){return r.y;}));
+    resetRock(rock, minRockY - rockDistance);
   });
 
   function highlightFret(note) {
@@ -267,8 +263,8 @@ $(function() {
           new explosion(rock.x, canvas.height - 5, false)
         );
 
-        resetRock(rock, 0);
-        rock.y -= rockHeight;
+        var minRockY = Math.min.apply(Math, rocks.map(function(r){return r.y;}));
+        resetRock(rock, minRockY - rockDistance);
       }
     }
 
@@ -312,13 +308,6 @@ $(function() {
   }
 
   $(".start-game").on("click", function () {
-    score = startingScore
-    block.x = 0;
-
-    for (var i = 0; i < rocks.length; i++) {
-      resetRock(rocks[i], i);
-    }
-
     if(!continueAnimating) {
       continueAnimating = true;
       animate();
