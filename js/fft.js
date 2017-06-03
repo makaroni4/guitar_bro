@@ -93,7 +93,7 @@ function AudioProcessor() {
 
     let freq_step = that.audioContext.sampleRate / this.FFTSIZE;
     let min_freq_ind = Math.round(300 / freq_step);
-    let max_freq_ind = Math.round(700 / freq_step);
+    let max_freq_ind = Math.round(680 / freq_step);
 
     // console.log(freq_step, min_freq_ind, max_freq_ind)
 
