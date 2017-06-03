@@ -11,7 +11,6 @@ $(function() {
     }
 
     return num;
-
   }
 
   var $score = $(".real-guitar-hero__score");
@@ -42,6 +41,7 @@ $(function() {
   var pegWidth = 2;
   var rockWidth = canvas.width / NOTES.length;
   var rockHeight = rockWidth;
+  var rockSpeed = 5;
   var totalRocks = 2;
   var rockDistance = canvas.height / totalRocks;
   var rocks = [];
@@ -56,6 +56,11 @@ $(function() {
   const particlesMinSize      = 2;
   const particlesMaxSize      = 4;
   const explosions            = [];
+
+  // fps options
+  var fps = 30, fpsInterval, startTime, now, then, elapsed;
+  var rockFallingTime = (canvas.height - blockHeight - rockHeight) / (fps * rockSpeed);
+  console.log(rockFallingTime)
 
   // Draw explosion(s)
   // https://stackoverflow.com/questions/43498923/html5-canvas-particle-explosion
@@ -140,7 +145,7 @@ $(function() {
     var rock = {
       width: rockWidth - pegWidth,
       height: rockHeight,
-      speed: 2
+      speed: rockSpeed
     }
 
     resetRock(rock, -rockIndex * rockDistance);
@@ -251,24 +256,34 @@ $(function() {
       requestAnimationFrame(animate);
     }
 
-    for (var i = 0; i < rocks.length; i++) {
-      var rock = rocks[i];
+    now = Date.now();
+    elapsed = now - then;
 
-      rock.y += rock.speed;
+    if (elapsed > fpsInterval) {
+      // Get ready for next frame by setting then=now, but also adjust for your
+      // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
+      then = now - (elapsed % fpsInterval);
 
-      if (rock.y > canvas.height) {
-        score -= 10;
+      // Drawing code
+      for (var i = 0; i < rocks.length; i++) {
+        var rock = rocks[i];
 
-        explosions.push(
-          new explosion(rock.x, canvas.height - 5, false)
-        );
+        rock.y += rock.speed;
 
-        var minRockY = Math.min.apply(Math, rocks.map(function(r){return r.y;}));
-        resetRock(rock, minRockY - rockDistance);
+        if (rock.y > canvas.height) {
+          score -= 10;
+
+          explosions.push(
+            new explosion(rock.x, canvas.height - 5, false)
+          );
+
+          var minRockY = Math.min.apply(Math, rocks.map(function(r){return r.y;}));
+          resetRock(rock, minRockY - rockDistance);
+        }
       }
-    }
 
-    drawAll();
+      drawAll();
+    }
   }
 
   function isColliding(a, b) {
@@ -308,9 +323,10 @@ $(function() {
   }
 
   $(".start-game").on("click", function () {
-    if(!continueAnimating) {
-      continueAnimating = true;
-      animate();
-    };
+    fpsInterval = 1000 / fps;
+    then = Date.now();
+    startTime = then;
+    continueAnimating = true;
+    animate();
   });
 });
