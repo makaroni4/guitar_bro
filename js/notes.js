@@ -37,6 +37,8 @@ $(function() {
       height: blockHeight
   }
 
+  var highlightedFret;
+
   // rock variables
   var pegWidth = 2;
   var rockWidth = canvas.width / NOTES.length;
@@ -141,7 +143,7 @@ $(function() {
       width: rockWidth - pegWidth,
       height: rockHeight,
       note: note,
-      speed: 5
+      speed: 2
     }
     resetRock(rock, rockIndex);
     rocks.push(rock);
@@ -160,6 +162,7 @@ $(function() {
 
   $(document).on("note_detected", function(event, note, freq, error) {
     note = note[1];
+    highlightFret(note);
 
     var rockIndex = rocks.findIndex(function(r) {
       return r.y >= canvas.height - blockHeight - rockHeight;
@@ -175,9 +178,9 @@ $(function() {
       return;
     }
 
-    // console.log(note, rock.note);
-
     var correctAnswer = note === rock.note;
+
+
 
     if(correctAnswer) {
       score += 10;
@@ -193,6 +196,18 @@ $(function() {
     resetRock(rock, 0);
     rock.y -= canvas.height - currentY - rockHeight;
   });
+
+  function highlightFret(note) {
+    var fretIndex = NOTES.findIndex(function(n) {
+      return note === n;
+    });
+
+    highlightedFret = fretIndex;
+
+    setTimeout(function() {
+      highlightedFret = undefined;
+    }, 100);
+  }
 
   function drawCircle(x, y) {
     var circleSize = (blockHeight / 6 - 1) / 2;
@@ -228,6 +243,11 @@ $(function() {
     var doubleCirclesFret = 12;
     drawCircle((rockWidth * 11) + rockWidth / 2 + pegWidth, canvas.height - circleSize * 2.5);
     drawCircle((rockWidth * 11) + rockWidth / 2 + pegWidth, canvas.height - blockHeight + 2.5 * circleSize);
+
+    if(typeof(highlightedFret) === "number") {
+      ctx.fillStyle = "#F991CC";
+      ctx.fillRect(highlightedFret * rockWidth, block.y, rockWidth - pegWidth, rockHeight);
+    }
   }
 
   function animate() {
