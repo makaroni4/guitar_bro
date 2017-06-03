@@ -16,7 +16,7 @@ $(function() {
 
   var $score = $(".real-guitar-hero__score");
 
-  var NOTES = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
+  var NOTES = ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"]
 
   //canvas variables
   var canvas = document.getElementById("game-canvas");
@@ -38,8 +38,8 @@ $(function() {
   }
 
   // rock variables
-  var rockWidth = 50;
-  var rockHeight = 50;
+  var rockWidth = canvas.width / NOTES.length;
+  var rockHeight = rockWidth;
   var totalRocks = 2;
   var rockDistance = canvas.height / totalRocks;
   var rocks = [];
@@ -147,9 +147,14 @@ $(function() {
   }
 
   function resetRock(rock, rockIndex) {
-    rock.x = Math.random() * (canvas.width - rockWidth);
-    rock.y = -rockIndex * rockDistance
     rock.note = pickRandom(NOTES);
+    rock.y = -rockIndex * rockDistance
+
+    var noteIndex = NOTES.findIndex(function(note) {
+      return note == rock.note;
+    });
+
+    rock.x = noteIndex * rockWidth;
   }
 
   $(document).on("note_detected", function(event, note, freq, error) {
