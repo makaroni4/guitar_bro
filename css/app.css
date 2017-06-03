@@ -9,6 +9,21 @@
   margin-left: 20px;
 }
 
+.real-guitar-hero__metronome-input-label {
+  display: block;
+
+  color: grey;
+}
+
+.real-guitar-hero__metronome-input {
+  display: block;
+  width: 150px;
+  padding: 8px;
+
+  font-size: 24px;
+  line-height: 32px;
+}
+
 .real-guitar-hero__score {
   font-size: 24px;
   color: #0654C8;
@@ -38,7 +53,7 @@
   height: 200px;
 }
 
-path { 
+path {
   stroke: steelblue;
   stroke-width: 2;
   fill: none;

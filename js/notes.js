@@ -43,7 +43,7 @@ $(function() {
   var rockHeight = rockWidth;
   var rockSpeed = 5;
   var totalRocks = 2;
-  var rockDistance = canvas.height / totalRocks;
+  var rockDistance = canvas.height;
   var rocks = [];
   for (var i = 0; i < totalRocks; i++) {
     addRock(i);
@@ -58,9 +58,7 @@ $(function() {
   const explosions            = [];
 
   // fps options
-  var fps = 30, fpsInterval, startTime, now, then, elapsed;
-  var rockFallingTime = (canvas.height - blockHeight - rockHeight) / (fps * rockSpeed);
-  console.log(rockFallingTime)
+  var fps, fpsInterval, startTime, now, then, elapsed;
 
   // Draw explosion(s)
   // https://stackoverflow.com/questions/43498923/html5-canvas-particle-explosion
@@ -323,6 +321,9 @@ $(function() {
   }
 
   $(".start-game").on("click", function () {
+    var rockFallingTime = 60 * 4 / $(".real-guitar-hero__metronome-input").val();
+    var fps = canvas.height / (rockFallingTime * rockSpeed);
+
     fpsInterval = 1000 / fps;
     then = Date.now();
     startTime = then;
