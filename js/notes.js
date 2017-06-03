@@ -29,7 +29,7 @@ $(function() {
 
   // block variables
   var blockWidth = canvas.width;
-  var blockHeight = 50;
+  var blockHeight = canvas.width / NOTES.length;
   var block = {
       x: 0,
       y: canvas.height - blockHeight,
@@ -38,6 +38,7 @@ $(function() {
   }
 
   // rock variables
+  var pegWidth = 2;
   var rockWidth = canvas.width / NOTES.length;
   var rockHeight = rockWidth;
   var totalRocks = 2;
@@ -137,10 +138,10 @@ $(function() {
   function addRock(rockIndex) {
     var note = pickRandom(NOTES);
     var rock = {
-      width: rockWidth,
+      width: rockWidth - pegWidth,
       height: rockHeight,
       note: note,
-      speed: 1.5
+      speed: 5
     }
     resetRock(rock, rockIndex);
     rocks.push(rock);
@@ -154,7 +155,7 @@ $(function() {
       return note == rock.note;
     });
 
-    rock.x = noteIndex * rockWidth;
+    rock.x = noteIndex * rockWidth + pegWidth;
   }
 
   $(document).on("note_detected", function(event, note, freq, error) {
@@ -192,6 +193,18 @@ $(function() {
     resetRock(rock, 0);
     rock.y -= canvas.height - currentY - rockHeight;
   });
+
+  function drawFretBoard() {
+    ctx.fillStyle = "skyblue";
+    ctx.fillRect(block.x, block.y, block.width, block.height);
+    ctx.strokeStyle = "lightgray";
+    ctx.strokeRect(block.x, block.y, block.width, block.height);
+
+    for(var i = 0; i < NOTES.length; i++) {
+      ctx.fillStyle = "#FFF";
+      ctx.fillRect(i * rockWidth, block.y, pegWidth, block.height);
+    }
+  }
 
   function animate() {
     if (continueAnimating) {
@@ -235,11 +248,8 @@ $(function() {
     ctx.fillStyle = "ivory";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // draw the block
-    ctx.fillStyle = "skyblue";
-    ctx.fillRect(block.x, block.y, block.width, block.height);
-    ctx.strokeStyle = "lightgray";
-    ctx.strokeRect(block.x, block.y, block.width, block.height);
+    // draw the Fretboard block
+    drawFretBoard();
 
     // draw all rocks
     for (var i = 0; i < rocks.length; i++) {
