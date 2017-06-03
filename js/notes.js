@@ -17,6 +17,27 @@ $(function() {
 
   var NOTES = ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"]
 
+  // song
+  // var SONG = "--0-0-2-0-5-4--0-0-2-0-7-5--0-0-9-7-5-4-2-2--10-10-9-5-7-5";
+
+  // SONG = SONG.split("-").map(function(fret) {
+  //   if(fret === "") {
+  //     return undefined;
+  //   } else if(fret === "0") {
+  //     return "E"
+  //   } else {
+  //     return NOTES[parseInt(fret, 10) - 1];
+  //   }
+  // });
+
+  function generateNextNote() {
+    if(typeof(SONG) !== "undefined") {
+      return SONG.shift();
+    } else {
+      return pickRandom(NOTES);
+    }
+  }
+
   //canvas variables
   var canvas = document.getElementById("game-canvas");
   var ctx = canvas.getContext("2d");
@@ -151,7 +172,7 @@ $(function() {
   }
 
   function resetRock(rock, newY) {
-    rock.note = pickRandom(NOTES);
+    rock.note = generateNextNote();
     rock.y = newY;
 
     var noteIndex = NOTES.findIndex(function(note) {
