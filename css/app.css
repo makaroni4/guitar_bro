@@ -24,16 +24,6 @@
   line-height: 32px;
 }
 
-.real-guitar-hero__metronome-enabled-label {
-  display: block;
-
-  color: grey;
-}
-
-.real-guitar-hero__metronome-enabled {
-
-}
-
 .real-guitar-hero__score {
   font-size: 24px;
   color: #0654C8;
