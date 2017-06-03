@@ -32,3 +32,14 @@
 #game-canvas {
   border: 2px solid #00C49E;
 }
+
+.audio-wave {
+  width: 350px;
+  height: 200px;
+}
+
+path { 
+  stroke: steelblue;
+  stroke-width: 2;
+  fill: none;
+}

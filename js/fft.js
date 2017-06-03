@@ -104,6 +104,8 @@ function AudioProcessor() {
     freq = that.frequencyBuffer;
     wave = that.timeBuffer;
 
+    plotWave(wave);
+
     for (let d = 0; d < wave.length; d++) {
       wave_power += wave[d] * wave[d];
     }
