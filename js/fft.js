@@ -19,8 +19,7 @@ function AudioProcessor() {
 
   this.last_wave_power = 0;
   this.wave_power_threshold = 0.006;
-  this.assessedStringsInLastFrame = false;
-  this.assessStringsUntilTime = 0;
+  this.last_note_time = -1;
 
   var that = this;
 
@@ -87,16 +86,19 @@ function AudioProcessor() {
 
   var log = 10000;
 
-  this.autocorrelateAudioData = function(time) {
+  this.find_note_freq = function(time) {
     let wave_power = 0;
     let wave_power_min = 0.008;
     let assessedStringsInLastFrame = that.assessedStringsInLastFrame;
 
     let freq_step = that.audioContext.sampleRate / this.FFTSIZE;
-    let min_freq_ind = 2;
-    let max_freq_ind = Math.round(2000 / freq_step);
+    let min_freq_ind = Math.round(300 / freq_step);
+    let max_freq_ind = Math.round(700 / freq_step);
+
+    // console.log(freq_step, min_freq_ind, max_freq_ind)
 
     // Fill up the data.
+
     that.analyser.getFloatTimeDomainData(that.timeBuffer);
     that.analyser.getFloatFrequencyData(that.frequencyBuffer);
     freq = that.frequencyBuffer;
@@ -107,28 +109,16 @@ function AudioProcessor() {
     }
     wave_power = Math.sqrt(wave_power / wave.length);
 
+    // median = d3.median(freq);
+
     for (let d = 0; d < freq.length; d++) {
+      // if (freq[d] < median){
+      //   freq[d] = median;
+      // }
       freq[d] = Math.pow(10, freq[d] / 20);
       freq[d] *= freq[d] * 100000;
     }
 
-    powers = [];
-    powers_x = [];
-
-    let ix = 0;
-    for (let i = min_freq_ind; i < max_freq_ind; i++) {
-      let sum = 0;
-      for (let j = 1; j <= 4; j++){
-        ix = i * j;
-        sum += freq[ix - 1] + freq[ix] + freq[ix + 1];
-      }
-      powers.push(sum);
-      powers_x.push(i * freq_step);
-    }
-
-    if (wave_power < wave_power_min){
-      return -1;
-    }
 
     let max_A = -1000000;
     let arg_max = -1;
@@ -139,10 +129,42 @@ function AudioProcessor() {
       }
     }
 
+    let total_energy = 0;
+    for (let i = min_freq_ind; i < max_freq_ind; i++) {
+      total_energy += freq[i];
+    }
+
+    let maximum_energy = 0;
+    for (let i = Math.round(arg_max - 20 / freq_step - 1); i <= Math.round(arg_max + 20 / freq_step + 1); i++){
+      maximum_energy += freq[i];
+    }
+
+    if (maximum_energy / total_energy < 0.96){
+      return -1;
+    }
+
+    if (time > this.last_note_time + 100){
+      this.last_wave_power = 0;
+    }
+
+    if (wave_power < this.last_wave_power){
+      return -1;
+    }
+
+    this.last_note_time = time;
+    this.last_wave_power = wave_power;
+
+    freq_x = [];
+    for (let i = min_freq_ind; i < max_freq_ind; i++){
+      freq_x.push(i * freq_step);
+    }
+
+    // plot_data([{y: Array.from(freq.slice(min_freq_ind, max_freq_ind)), x: freq_x, type: 'scatter'}] );
     return arg_max * freq_step;
   }
 
   this.dispatchAudioData = function(time) {
+
     let freqs = [
       [329.6, "E"],
       [349.2, "F"],
@@ -159,6 +181,9 @@ function AudioProcessor() {
       [659.2, "E"],
     ];
 
+    // plot_lines(freqs);
+
+
     // Always set up the next pass here, because we could
     // early return from this pass if there's not a lot
     // of exciting data to deal with.
@@ -166,7 +191,7 @@ function AudioProcessor() {
       requestAnimationFrame(that.dispatchAudioData);
     }
 
-    let frequency = that.autocorrelateAudioData(time);
+    let frequency = that.find_note_freq(time);
     if (frequency < 0){
       return;
     }
@@ -177,7 +202,8 @@ function AudioProcessor() {
       let chord_freq = freqs[i][0];
       let chord = freqs[i][1];
 
-      let n_div = frequency / chord_freq;
+      //let n_div = frequency / chord_freq;   //for future
+      let n_div = 1;
       let error = Math.abs( Math.round(n_div) * chord_freq - frequency);
       if (error < min_freq_error){
         best_chord_ind = i;
@@ -185,7 +211,7 @@ function AudioProcessor() {
       }
     }
 
-    if (min_freq_error < 20) {
+    if (min_freq_error < 20){
       $(document).trigger("note_detected", [freqs[best_chord_ind], frequency, min_freq_error]);
     }
 
