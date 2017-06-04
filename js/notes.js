@@ -14,7 +14,6 @@ $(function() {
   }
 
   var NOTES = ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"];
-  var INTERVALS = [1, 2, 4, 8];
 
   var randomSongLength = 10;
   var SONGS = {
