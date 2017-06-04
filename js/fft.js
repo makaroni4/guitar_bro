@@ -77,19 +77,9 @@ function AudioProcessor() {
 
   }
 
-  /**
-   * Autocorrelate the audio data, which is basically where you
-   * compare the audio buffer to itself, offsetting by one each
-   * time, up to the half way point. You sum the differences and
-   * you see how small the difference comes out.
-   */
-
-  var log = 10000;
 
   this.find_note_freq = function(time) {
     let wave_power = 0;
-    let wave_power_min = 0.008;
-    let assessedStringsInLastFrame = that.assessedStringsInLastFrame;
 
     let freq_step = that.audioContext.sampleRate / this.FFTSIZE;
     let min_freq_ind = Math.round(300 / freq_step);
@@ -109,14 +99,9 @@ function AudioProcessor() {
     }
     wave_power = Math.sqrt(wave_power / wave.length);
 
-    // median = d3.median(freq);
 
-    for (let d = 0; d < freq.length; d++) {
-      // if (freq[d] < median){
-      //   freq[d] = median;
-      // }
-      freq[d] = Math.pow(10, freq[d] / 20);
-      freq[d] *= freq[d] * 100000;
+    for (let d = min_freq_ind; d < Math.min(max_freq_ind + 20 / freq_step + 5, d.length); d++) {
+      freq[d] = Math.pow(10, 5 + freq[d] / 10);
     }
 
 
@@ -154,12 +139,6 @@ function AudioProcessor() {
     this.last_note_time = time;
     this.last_wave_power = wave_power;
 
-    freq_x = [];
-    for (let i = min_freq_ind; i < max_freq_ind; i++){
-      freq_x.push(i * freq_step);
-    }
-
-    // plot_data([{y: Array.from(freq.slice(min_freq_ind, max_freq_ind)), x: freq_x, type: 'scatter'}] );
     return arg_max * freq_step;
   }
 
@@ -180,9 +159,6 @@ function AudioProcessor() {
       [622.2, "D#"],
       [659.2, "E"],
     ];
-
-    // plot_lines(freqs);
-
 
     // Always set up the next pass here, because we could
     // early return from this pass if there's not a lot
