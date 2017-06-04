@@ -98,6 +98,13 @@ $(function() {
     }
   }
 
+  function calculateRockY(rockIndex) {
+    var prevRock = rockIndex === 0 ? rocks[rocks.length - 1] : rocks[rockIndex - 1];
+    var minRockY = rocks.length === 0 ? 0 : Math.min.apply(Math, rocks.map(function(r){return r.y;}));
+
+    return rocks.length === 0 ? 0 : minRockY - prevRock.duration;
+  }
+
   function addRock(rockIndex, songIndex) {
     var song = SONGS[songIndex];
     var rock = {
@@ -108,9 +115,6 @@ $(function() {
     }
 
     var prevRock = rockIndex === 0 ? rocks[rocks.length - 1] : rocks[rockIndex - 1];
-
-    var minRockY = rocks.length === 0 ? 0 : Math.min.apply(Math, rocks.map(function(r){return r.y;}));
-    var rockY = rocks.length === 0 ? 0 : minRockY - prevRock.duration;
 
     rock.note = song[rockIndex][0];
 
@@ -125,10 +129,7 @@ $(function() {
   }
 
   function resetRock(rock, rockIndex) {
-    var minRockY = rocks.length === 0 ? 0 : Math.min.apply(Math, rocks.map(function(r){return r.y;}));
-    var prevRock = rockIndex === 0 ? rocks[rocks.length - 1] : rocks[rockIndex - 1];
-
-    rock.y = rocks.length === 0 ? 0 : minRockY - prevRock.duration;
+    rock.y = calculateRockY(rockIndex)
   }
 
   // particles options
