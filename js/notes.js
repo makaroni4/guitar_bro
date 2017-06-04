@@ -18,7 +18,7 @@ $(function() {
   var randomSongLength = 10;
   var SONGS = {
     0: Array.apply(null, Array(randomSongLength)).map(function() {
-        return [NOTES[randInt(0, NOTES.length - 1, true)], 4]
+        return [NOTES[randInt(0, NOTES.length - 1, true)], 1]
     }),
     1: parseSong("0,4-0,8-2,4-4,4-4,4-4,2")
   }
@@ -84,12 +84,12 @@ $(function() {
   // rock variables
   var pegWidth = 2;
   var rockWidth = 50;
+  var rockSpeed;
   var rockHeight = rockWidth;
-  var rockSpeed = 5;
-  var rockDistance = canvas.height;
+  var eightsDurationDistance = rockHeight;
   var rocks = [];
 
-  function initRocks(rockSpeed, songIndex) {
+  function initRocks(songIndex) {
     var song = SONGS[songIndex];
     var totalRocks = song.length;
 
@@ -102,7 +102,7 @@ $(function() {
     var prevRock = rockIndex === 0 ? rocks[rocks.length - 1] : rocks[rockIndex - 1];
     var minRockY = rocks.length === 0 ? 0 : Math.min.apply(Math, rocks.map(function(r){return r.y;}));
 
-    return rocks.length === 0 ? 0 : minRockY - prevRock.duration;
+    return rocks.length === 0 ? 0 : minRockY - prevRock.durationDistance;
   }
 
   function addRock(rockIndex, songIndex) {
@@ -110,8 +110,7 @@ $(function() {
     var rock = {
       width: rockWidth - pegWidth,
       height: rockHeight,
-      speed: rockSpeed,
-      duration: rockDistance / song[rockIndex][1]
+      durationDistance: eightsDurationDistance * 8 / song[rockIndex][1]
     }
 
     var prevRock = rockIndex === 0 ? rocks[rocks.length - 1] : rocks[rockIndex - 1];
@@ -327,7 +326,7 @@ $(function() {
       for (var i = 0; i < rocks.length; i++) {
         var rock = rocks[i];
 
-        rock.y += rock.speed;
+        rock.y += rockSpeed;
 
         if (rock.y > canvas.height) {
           score -= 10;
@@ -387,12 +386,14 @@ $(function() {
       $score = $game.find(".real-guitar-hero__score");
 
   $startButton.on("click", function () {
-    var rockFallingTime = 60 * $bpmInput.val(),
-        fps = 30,
-        rockSpeed = canvas.height / (fps * rockFallingTime),
-        songIndex = $songSelect.val();
+    var beatDuration = 60 / $bpmInput.val(),
+        fps = 30;
 
-    initRocks(rockSpeed, songIndex);
+    rockSpeed = eightsDurationDistance * 8 / (fps * beatDuration);
+
+    var songIndex = $songSelect.val();
+
+    initRocks(songIndex);
 
     fpsInterval = 1000 / fps;
     then = Date.now();
