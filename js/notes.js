@@ -19,9 +19,9 @@ $(function() {
   var randomSongLength = 10;
   var SONGS = {
     0: Array.apply(null, Array(randomSongLength)).map(function() {
-        return [NOTES[randInt(0, NOTES.length - 1, true)], 2]
+        return [NOTES[randInt(0, NOTES.length - 1, true)], 4]
     }),
-    1: parseSong("0,4-0,4-2,4-0,4-5,4-4,8")
+    1: parseSong("0,4-0,8-2,4-4,4-4,4-4,2")
   }
 
   function parseSong(encodedSong) {
@@ -52,7 +52,7 @@ $(function() {
 
   // block variables
   var blockWidth = canvas.width;
-  var blockHeight = canvas.width / NOTES.length;
+  var blockHeight = 50;
   var block = {
       x: 0,
       y: canvas.height - blockHeight,
@@ -64,7 +64,7 @@ $(function() {
 
   // rock variables
   var pegWidth = 2;
-  var rockWidth = canvas.width / NOTES.length;
+  var rockWidth = 50;
   var rockHeight = rockWidth;
   var rockSpeed = 5;
   var rockDistance = canvas.height;
@@ -347,8 +347,10 @@ $(function() {
       ctx.fillStyle = "#FFA100";
       ctx.fillRect(rock.x, rock.y, rock.width, rock.height);
 
-      ctx.font = "18px Times New Roman";
+      ctx.font = "28px Times New Roman";
       ctx.fillStyle = "#FFF";
+      ctx.textAlign="center";
+      ctx.textBaseline = "middle";
       ctx.fillText(rock.note, rock.x + 25, rock.y + 25);
     }
 
@@ -364,7 +366,7 @@ $(function() {
       $score = $game.find(".real-guitar-hero__score");
 
   $startButton.on("click", function () {
-    var rockFallingTime = 60 * 4 / $bpmInput.val(),
+    var rockFallingTime = 60 * $bpmInput.val(),
         fps = 30,
         rockSpeed = canvas.height / (fps * rockFallingTime),
         songIndex = $songSelect.val();
