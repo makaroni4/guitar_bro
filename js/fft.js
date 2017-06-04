@@ -100,7 +100,7 @@ function AudioProcessor() {
     wave_power = Math.sqrt(wave_power / wave.length);
 
 
-    for (let d = min_freq_ind; d < Math.min(max_freq_ind + 20 / freq_step + 5, d.length); d++) {
+    for (let d = Math.round(Math.max(min_freq_ind - 20 / freq_step - 5, 0)); d < Math.min(max_freq_ind + 20 / freq_step + 5, freq.length); d++) {
       freq[d] = Math.pow(10, 5 + freq[d] / 10);
     }
 

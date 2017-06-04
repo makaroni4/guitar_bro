@@ -36,6 +36,26 @@ $(function() {
     });
   }
 
+  function parseSongDashed(encodedSong) {
+    let song = [];
+    let duration = 0;
+    let last_note;
+    for (let i = 0; i < encodedSong.length; i++){
+      if (encodedSong[i] != "-"){
+        if (duration > 0){
+          song.push([last_note, 16 / duration]);
+        }
+
+        let fret = parseInt(encodedSong[i]);
+        last_note = fret === 0 ? "E" : NOTES[fret - 1];
+        duration = 0;
+      } else {
+        duration += 1;
+      }
+    }
+    return song;
+  }
+
   function generateNextNote(songIndex, rockIndex) {
     var song = SONGS[songIndex];
 
