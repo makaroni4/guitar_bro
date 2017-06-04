@@ -13,29 +13,33 @@ $(function() {
     return num;
   }
 
-  var $score = $(".real-guitar-hero__score");
+  var NOTES = ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"];
+  var INTERVALS = [1, 2, 4, 8];
 
-  var NOTES = ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"]
+  var randomSongLength = 10;
+  var SONGS = {
+    0: Array.apply(null, Array(randomSongLength)).map(function() {
+        return [NOTES[randInt(0, NOTES.length - 1, true)], 2]
+    }),
+    1: parseSong("0,4-0,4-2,4-0,4-5,4-4,8")
+  }
 
-  // song
-  // var SONG = "--0-0-2-0-5-4--0-0-2-0-7-5--0-0-9-7-5-4-2-2--10-10-9-5-7-5";
+  function parseSong(encodedSong) {
+    return encodedSong.split("-").map(function(fretDurationPair) {
+      var [fret, duration] = fretDurationPair.split(",").map(function(el) {
+        return parseInt(el, 10);
+      });
 
-  // SONG = SONG.split("-").map(function(fret) {
-  //   if(fret === "") {
-  //     return undefined;
-  //   } else if(fret === "0") {
-  //     return "E"
-  //   } else {
-  //     return NOTES[parseInt(fret, 10) - 1];
-  //   }
-  // });
+      var note = fret === 0 ? "E" : NOTES[fret - 1];
 
-  function generateNextNote() {
-    if(typeof(SONG) !== "undefined") {
-      return SONG.shift();
-    } else {
-      return pickRandom(NOTES);
-    }
+      return [note, duration];
+    });
+  }
+
+  function generateNextNote(songIndex, rockIndex) {
+    var song = SONGS[songIndex];
+
+    return SONG[rockIndex][0];
   }
 
   //canvas variables
@@ -63,11 +67,45 @@ $(function() {
   var rockWidth = canvas.width / NOTES.length;
   var rockHeight = rockWidth;
   var rockSpeed = 5;
-  var totalRocks = 2;
   var rockDistance = canvas.height;
   var rocks = [];
-  for (var i = 0; i < totalRocks; i++) {
-    addRock(i);
+
+  function initRocks(rockSpeed, songIndex) {
+    var song = SONGS[songIndex];
+    var totalRocks = song.length;
+
+    for (var i = 0; i < totalRocks; i++) {
+      addRock(i, songIndex);
+    }
+  }
+
+  function addRock(rockIndex, songIndex) {
+    var song = SONGS[songIndex];
+    var rock = {
+      width: rockWidth - pegWidth,
+      height: rockHeight,
+      speed: rockSpeed,
+      duration: rockDistance / song[rockIndex][1]
+    }
+
+    var minRockY = rocks.length === 0 ? 0 : Math.min.apply(Math, rocks.map(function(r){return r.y;}));
+    var rockY = minRockY - rock.duration;
+    rock.note = song[rockIndex][0];
+
+    var noteIndex = NOTES.findIndex(function(note) {
+      return note == rock.note;
+    });
+
+    rock.x = noteIndex * rockWidth + pegWidth;
+
+    resetRock(rock, rockY, rockIndex);
+    rocks.push(rock);
+  }
+
+  function resetRock(rock, newY) {
+    var minRockY = rocks.length === 0 ? 0 : Math.min.apply(Math, rocks.map(function(r){return r.y;}));
+
+    rock.y = minRockY - rock.duration;
   }
 
   // particles options
@@ -158,28 +196,6 @@ $(function() {
 
   function pickRandom(array) {
     return array[Math.floor(Math.random() * array.length)];
-  }
-
-  function addRock(rockIndex) {
-    var rock = {
-      width: rockWidth - pegWidth,
-      height: rockHeight,
-      speed: rockSpeed
-    }
-
-    resetRock(rock, -rockIndex * rockDistance);
-    rocks.push(rock);
-  }
-
-  function resetRock(rock, newY) {
-    rock.note = generateNextNote();
-    rock.y = newY;
-
-    var noteIndex = NOTES.findIndex(function(note) {
-      return note == rock.note;
-    });
-
-    rock.x = noteIndex * rockWidth + pegWidth;
   }
 
   $(document).on("note_detected", function(event, note, freq, error) {
@@ -341,9 +357,19 @@ $(function() {
     drawExplosion();
   }
 
-  $(".start-game").on("click", function () {
-    var rockFallingTime = 60 * 4 / $(".real-guitar-hero__bpm-input").val();
-    var fps = canvas.height / (rockFallingTime * rockSpeed);
+  var $game = $(".real-guitar-hero"),
+      $startButton = $game.find(".start-game"),
+      $bpmInput = $game.find(".real-guitar-hero__bpm-input"),
+      $songSelect = $game.find(".real-guitar-hero__song-select"),
+      $score = $game.find(".real-guitar-hero__score");
+
+  $startButton.on("click", function () {
+    var rockFallingTime = 60 * 4 / $bpmInput.val(),
+        fps = 30,
+        rockSpeed = canvas.height / (fps * rockFallingTime),
+        songIndex = $songSelect.val();
+
+    initRocks(rockSpeed, songIndex);
 
     fpsInterval = 1000 / fps;
     then = Date.now();
