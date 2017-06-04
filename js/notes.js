@@ -17,11 +17,11 @@ $(function() {
 
   var randomSongLength = 10;
   var SONGS = {
-    0: Array.apply(null, Array(randomSongLength)).map(function() {
+    "Random": Array.apply(null, Array(randomSongLength)).map(function() {
         return [NOTES[randInt(0, NOTES.length - 1, true)], 1]
     }),
-    1: parseSong("0,4-0,8-2,4-4,4-4,4-4,2"),
-    2: parseSongDashed("0-0-2--0----5-4----0-0-2--0----7-5----0-0-9--7-5-4--2-2----10-10-9--5--7-5"),
+    "Happy Birthday": parseSong("0,4-0,8-2,4-4,4-4,4-4,2"),
+    "Happy Birthday V2": parseSongDashed("0-0-2--0----5-4----0-0-2--0----7-5----0-0-9--7-5-4--2-2----10-10-9--5--7-5"),
   }
 
   function parseSong(encodedSong) {
@@ -385,6 +385,19 @@ $(function() {
       $bpmInput = $game.find(".real-guitar-hero__bpm-input"),
       $songSelect = $game.find(".real-guitar-hero__song-select"),
       $score = $game.find(".real-guitar-hero__score");
+
+  // show songs options
+  for(song in SONGS) {
+    var $option = $("<option/>");
+    $option.val(song);
+    $option.text(song);
+
+    if(song === "Random") {
+      $option.attr("selected", "selected");
+    }
+
+    $songSelect.append($option);
+  }
 
   $startButton.on("click", function () {
     var beatDuration = 60 / $bpmInput.val(),
