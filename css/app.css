@@ -1,3 +1,11 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 .real-guitar-hero {
   display: flex;
 }
@@ -24,6 +32,22 @@
   line-height: 32px;
 }
 
+.real-guitar-hero__song-select-label {
+  display: block;
+
+  color: grey;
+}
+
+.real-guitar-hero__song-select {
+  display: block;
+  width: 150px;
+
+  background-color: #FFF;
+
+  font-size: 18px;
+  line-height: 24px;
+}
+
 .real-guitar-hero__score {
   font-size: 24px;
   color: #0654C8;
@@ -31,13 +55,15 @@
 
 .start-game {
   display: block;
-  padding: 10px;
+  padding: 10px 25px;
 
   border: none;
   border-radius: 2px;
 
   background-color: #23F0C7;
 
+  font-size: 18px;
+  line-height: 24px;
   color: #FFF;
 
   outline: none;
