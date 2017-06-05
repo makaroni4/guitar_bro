@@ -20,23 +20,16 @@ $(function() {
   var score = 50;
 
   // block variables
-  var blockWidth = canvas.width;
-  var blockHeight = 50;
-  var block = {
-    x: 0,
-    y: canvas.height - blockHeight,
-    width: blockWidth,
-    height: blockHeight
-  }
-  var highlightedFret;
+  var pegWidth = 2;
 
   // rock variables
-  var pegWidth = 2;
   var rockWidth = 50;
   var rockSpeed;
   var rockHeight = rockWidth;
   var eightsDurationDistance = rockHeight;
   var rocks = [];
+
+  var fretboard = new Fretboard(canvas, songLoader, rockWidth, pegWidth);
 
   function initRocks(songIndex) {
     rocks = [];
@@ -74,57 +67,6 @@ $(function() {
     rocks.push(rock);
   }
 
-  function highlightFret(note) {
-    var fretIndex = songLoader.findNoteIndex(note);
-
-    highlightedFret = fretIndex;
-
-    setTimeout(function() {
-      highlightedFret = undefined;
-    }, 100);
-  }
-
-  function drawCircle(x, y) {
-    var circleSize = (blockHeight / 6 - 1) / 2;
-
-    ctx.fillStyle = "#FFF";
-    ctx.beginPath();
-    ctx.arc(x, y, circleSize, 0, 2 * Math.PI);
-    ctx.fill();
-  }
-
-  function drawFretBoard() {
-    ctx.fillStyle = "skyblue";
-    ctx.fillRect(block.x, block.y, block.width, block.height);
-    ctx.strokeStyle = "lightgray";
-    ctx.strokeRect(block.x, block.y, block.width, block.height);
-
-    for(var i = 0; i < songLoader.notes.length; i++) {
-      ctx.fillStyle = "#FFF";
-      ctx.fillRect(i * rockWidth, block.y, pegWidth, block.height);
-    }
-
-    // draw single circles
-    var circleFrets = [2, 4, 6, 8];
-    var cirlceColor = "#FFF";
-    var verticalMiddle = canvas.height - block.height / 2;
-    var circleSize = (blockHeight / 6 - 1) / 2;
-
-    circleFrets.forEach(function(fret) {
-      drawCircle((rockWidth * fret - 1) + rockWidth / 2 + pegWidth, verticalMiddle);
-    });
-
-    // draw double circles
-    var doubleCirclesFret = 12;
-    drawCircle((rockWidth * 11) + rockWidth / 2 + pegWidth, canvas.height - circleSize * 2.5);
-    drawCircle((rockWidth * 11) + rockWidth / 2 + pegWidth, canvas.height - blockHeight + 2.5 * circleSize);
-
-    if(typeof(highlightedFret) === "number") {
-      ctx.fillStyle = "#F991CC";
-      ctx.fillRect(highlightedFret * rockWidth, block.y, rockWidth - pegWidth, rockHeight);
-    }
-  }
-
   function animate() {
     if (continueAnimating) {
       requestAnimationFrame(animate);
@@ -157,11 +99,8 @@ $(function() {
     }
   }
 
-  function isColliding(a, b) {
-    return !(
-      b.y > a.y + a.height ||
-      b.y + b.height < a.y
-    );
+  function isColliding(rock) {
+    return rock.y > canvas.height - rockHeight;
   }
 
   function drawAll() {
@@ -172,8 +111,7 @@ $(function() {
     ctx.fillStyle = "ivory";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // draw the Fretboard block
-    drawFretBoard();
+    fretboard.draw();
 
     // draw all rocks
     for (var i = 0; i < rocks.length; i++) {
@@ -202,10 +140,10 @@ $(function() {
   songLoader.populateSelectMenu($songSelect);
 
   $(document).on("note_detected", function(event, note) {
-    highlightFret(note);
+    fretboard.highlightFret(note);
 
     var rockIndex = rocks.findIndex(function(r) {
-      return r.y >= canvas.height - blockHeight - rockHeight;
+      return r.y >= canvas.height - 2 * rockHeight;
     });
 
     if(rockIndex === -1) {
@@ -214,7 +152,7 @@ $(function() {
 
     var rock = rocks[rockIndex];
 
-    if(!isColliding(block, rock)) {
+    if(!isColliding(rock)) {
       return;
     }
 
