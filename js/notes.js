@@ -116,14 +116,17 @@ $(function() {
     // draw all rocks
     for (var i = 0; i < rocks.length; i++) {
       var rock = rocks[i];
-      ctx.fillStyle = "#FFA100";
-      ctx.fillRect(rock.x, rock.y, rock.width, rock.height);
 
-      ctx.font = "28px Times New Roman";
-      ctx.fillStyle = "#FFF";
-      ctx.textAlign="center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(rock.note, rock.x + 25, rock.y + 25);
+      if(rock.y + rock.height > 0) {
+        ctx.fillStyle = "#FFA100";
+        ctx.fillRect(rock.x, rock.y, rock.width, rock.height);
+
+        ctx.font = "28px Times New Roman";
+        ctx.fillStyle = "#FFF";
+        ctx.textAlign="center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(rock.note, rock.x + 25, rock.y + 25);
+      }
     }
 
     $score.text(score);
@@ -165,8 +168,6 @@ $(function() {
     }
 
     explosion.add(rock.x, rock.y, correctAnswer)
-
-    var currentY = rock.y;
 
     rock.y = calculateRockY(rockIndex);
   });
