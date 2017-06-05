@@ -64,13 +64,9 @@ $(function() {
     var noteIndex = songLoader.findNoteIndex(rock.note);
 
     rock.x = noteIndex * rockWidth + pegWidth;
+    rock.y = calculateRockY(rockIndex);
 
-    resetRock(rock, rockIndex);
     rocks.push(rock);
-  }
-
-  function resetRock(rock, rockIndex) {
-    rock.y = calculateRockY(rockIndex)
   }
 
   function highlightFret(note) {
@@ -148,7 +144,7 @@ $(function() {
 
           explosion.add(rock.x, canvas.height - 5, false);
 
-          resetRock(rock, i);
+          rock.y = calculateRockY(i);
         }
       }
 
@@ -229,7 +225,7 @@ $(function() {
 
     var currentY = rock.y;
 
-    resetRock(rock, rockIndex);
+    rock.y = calculateRockY(rockIndex);
   });
 
   $startButton.on("click", function () {
