@@ -21,7 +21,7 @@ $(function() {
         return [NOTES[randInt(0, NOTES.length - 1, true)], 1]
     }),
     "Happy Birthday": parseSong("0,4-0,8-2,4-4,4-4,4-4,2"),
-    "Happy Birthday V2": parseSongDashed("0-0-2--0----5-4----0-0-2--0----7-5----0-0-9--7-5-4--2-2----10-10-9--5--7-5"),
+    "Happy Birthday V2": parseSongDashed("0-0-2--0--5-4----0-0-2--0----7-5----0-0-9--7-5-4--2-2----10-10-9--5--7-5"),
   }
 
   function parseSong(encodedSong) {
@@ -43,7 +43,7 @@ $(function() {
     for (let i = 0; i < encodedSong.length; i++){
       if (encodedSong[i] != "-"){
         if (duration > 0){
-          song.push([last_note, 16 / duration]);
+          song.push([last_note, 8 / duration]);
         }
 
         let fret = parseInt(encodedSong[i]);
