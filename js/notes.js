@@ -1,57 +1,13 @@
 $(function() {
-  var NOTES = ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"];
+  // song loader
+  var songLoader = new SongLoader();
 
-  var randomSongLength = 10;
-  var SONGS = {
-    "Random": Array.apply(null, Array(randomSongLength)).map(function() {
-        return [NOTES[randInt(0, NOTES.length - 1, true)], 1]
-    }),
-    "Happy Birthday": parseSong("0,4-0,8-2,4-4,4-4,4-4,2"),
-    "Happy Birthday V2": parseSongDashed("0-0-2--0--5-4----0-0-2--0----7-5----0-0-9--7-5-4--2-2----10-10-9--5--7-5"),
-  }
-
-  function parseSong(encodedSong) {
-    return encodedSong.split("-").map(function(fretDurationPair) {
-      var [fret, duration] = fretDurationPair.split(",").map(function(el) {
-        return parseInt(el, 10);
-      });
-
-      var note = fret === 0 ? "E" : NOTES[fret - 1];
-
-      return [note, duration];
-    });
-  }
-
-  function parseSongDashed(encodedSong) {
-    let song = [];
-    let duration = 0;
-    let last_note;
-    for (let i = 0; i < encodedSong.length; i++){
-      if (encodedSong[i] != "-"){
-        if (duration > 0){
-          song.push([last_note, 8 / duration]);
-        }
-
-        let fret = parseInt(encodedSong[i]);
-        last_note = fret === 0 ? "E" : NOTES[fret - 1];
-        duration = 0;
-      } else {
-        duration += 1;
-      }
-    }
-    return song;
-  }
-
-  function generateNextNote(songIndex, rockIndex) {
-    var song = SONGS[songIndex];
-
-    return SONG[rockIndex][0];
-  }
+  // fps options
+  var fps, fpsInterval, startTime, now, then, elapsed;
 
   //canvas variables
   var canvas = document.getElementById("game-canvas");
   var ctx = canvas.getContext("2d");
-
   var explosion = new ExplosionEffect(ctx);
 
   // game variables
@@ -62,12 +18,11 @@ $(function() {
   var blockWidth = canvas.width;
   var blockHeight = 50;
   var block = {
-      x: 0,
-      y: canvas.height - blockHeight,
-      width: blockWidth,
-      height: blockHeight
+    x: 0,
+    y: canvas.height - blockHeight,
+    width: blockWidth,
+    height: blockHeight
   }
-
   var highlightedFret;
 
   // rock variables
@@ -79,7 +34,7 @@ $(function() {
   var rocks = [];
 
   function initRocks(songIndex) {
-    var song = SONGS[songIndex];
+    var song = songLoader.songs[songIndex];
     var totalRocks = song.length;
 
     for (var i = 0; i < totalRocks; i++) {
@@ -95,7 +50,7 @@ $(function() {
   }
 
   function addRock(rockIndex, songIndex) {
-    var song = SONGS[songIndex];
+    var song = songLoader.songs[songIndex];
     var rock = {
       width: rockWidth - pegWidth,
       height: rockHeight,
@@ -106,9 +61,7 @@ $(function() {
 
     rock.note = song[rockIndex][0];
 
-    var noteIndex = NOTES.findIndex(function(note) {
-      return note == rock.note;
-    });
+    var noteIndex = songLoader.findNoteIndex(rock.note);
 
     rock.x = noteIndex * rockWidth + pegWidth;
 
@@ -120,46 +73,8 @@ $(function() {
     rock.y = calculateRockY(rockIndex)
   }
 
-  // fps options
-  var fps, fpsInterval, startTime, now, then, elapsed;
-
-  $(document).on("note_detected", function(event, note, freq, error) {
-    note = note[1];
-    highlightFret(note);
-
-    var rockIndex = rocks.findIndex(function(r) {
-      return r.y >= canvas.height - blockHeight - rockHeight;
-    });
-
-    if(rockIndex === -1) {
-      return;
-    }
-
-    var rock = rocks[rockIndex];
-
-    if(!isColliding(block, rock)) {
-      return;
-    }
-
-    var correctAnswer = note === rock.note;
-
-    if(correctAnswer) {
-      score += 10;
-    } else {
-      score -= 10;
-    }
-
-    explosion.add(rock.x, rock.y, correctAnswer)
-
-    var currentY = rock.y;
-
-    resetRock(rock, rockIndex);
-  });
-
   function highlightFret(note) {
-    var fretIndex = NOTES.findIndex(function(n) {
-      return note === n;
-    });
+    var fretIndex = songLoader.findNoteIndex(note);
 
     highlightedFret = fretIndex;
 
@@ -183,7 +98,7 @@ $(function() {
     ctx.strokeStyle = "lightgray";
     ctx.strokeRect(block.x, block.y, block.width, block.height);
 
-    for(var i = 0; i < NOTES.length; i++) {
+    for(var i = 0; i < songLoader.notes.length; i++) {
       ctx.fillStyle = "#FFF";
       ctx.fillRect(i * rockWidth, block.y, pegWidth, block.height);
     }
@@ -283,18 +198,40 @@ $(function() {
       $songSelect = $game.find(".real-guitar-hero__song-select"),
       $score = $game.find(".real-guitar-hero__score");
 
-  // show songs options
-  for(song in SONGS) {
-    var $option = $("<option/>");
-    $option.val(song);
-    $option.text(song);
+  songLoader.populateSelectMenu($songSelect);
 
-    if(song === "Random") {
-      $option.attr("selected", "selected");
+  $(document).on("note_detected", function(event, note, freq, error) {
+    note = note[1];
+    highlightFret(note);
+
+    var rockIndex = rocks.findIndex(function(r) {
+      return r.y >= canvas.height - blockHeight - rockHeight;
+    });
+
+    if(rockIndex === -1) {
+      return;
     }
 
-    $songSelect.append($option);
-  }
+    var rock = rocks[rockIndex];
+
+    if(!isColliding(block, rock)) {
+      return;
+    }
+
+    var correctAnswer = note === rock.note;
+
+    if(correctAnswer) {
+      score += 10;
+    } else {
+      score -= 10;
+    }
+
+    explosion.add(rock.x, rock.y, correctAnswer)
+
+    var currentY = rock.y;
+
+    resetRock(rock, rockIndex);
+  });
 
   $startButton.on("click", function () {
     var beatDuration = 60 / $bpmInput.val(),
