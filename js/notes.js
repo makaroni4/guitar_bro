@@ -3,7 +3,12 @@ $(function() {
   var songLoader = new SongLoader();
 
   // fps options
-  var fps, fpsInterval, startTime, now, then, elapsed;
+  var fps = 30,
+      fpsInterval = 1000 / fps,
+      startTime,
+      now,
+      then,
+      elapsed;
 
   //canvas variables
   var canvas = document.getElementById("game-canvas");
@@ -34,11 +39,12 @@ $(function() {
   var rocks = [];
 
   function initRocks(songIndex) {
+    rocks = [];
     var song = songLoader.songs[songIndex];
     var totalRocks = song.length;
 
     for (var i = 0; i < totalRocks; i++) {
-      addRock(i, songIndex);
+      addRock(i, song);
     }
   }
 
@@ -49,8 +55,7 @@ $(function() {
     return rocks.length === 0 ? 0 : minRockY - prevRock.durationDistance;
   }
 
-  function addRock(rockIndex, songIndex) {
-    var song = songLoader.songs[songIndex];
+  function addRock(rockIndex, song) {
     var rock = {
       width: rockWidth - pegWidth,
       height: rockHeight,
@@ -189,7 +194,7 @@ $(function() {
   }
 
   var $game = $(".real-guitar-hero"),
-      $startButton = $game.find(".start-game"),
+      $startButton = $game.find(".real-guitar-hero__start-button"),
       $bpmInput = $game.find(".real-guitar-hero__bpm-input"),
       $songSelect = $game.find(".real-guitar-hero__song-select"),
       $score = $game.find(".real-guitar-hero__score");
@@ -229,19 +234,22 @@ $(function() {
   });
 
   $startButton.on("click", function () {
-    var beatDuration = 60 / $bpmInput.val(),
-        fps = 30;
+    var beatDuration = 60 / $bpmInput.val();
 
     rockSpeed = eightsDurationDistance * 8 / (fps * beatDuration);
 
     var songIndex = $songSelect.val();
 
-    initRocks(songIndex);
-
-    fpsInterval = 1000 / fps;
     then = Date.now();
     startTime = then;
-    continueAnimating = true;
+    continueAnimating = !continueAnimating;
+
+    if(continueAnimating) {
+      initRocks(songIndex);
+    }
+
+    $startButton.text($startButton.data(continueAnimating ? "stop" : "start"));
+
     animate();
   });
 });

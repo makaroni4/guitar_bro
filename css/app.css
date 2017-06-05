@@ -25,7 +25,7 @@ html {
 
 .real-guitar-hero__bpm-input {
   display: block;
-  width: 150px;
+  width: 160px;
   padding: 8px;
 
   font-size: 24px;
@@ -40,7 +40,7 @@ html {
 
 .real-guitar-hero__song-select {
   display: block;
-  width: 150px;
+  width: 160px;
 
   background-color: #FFF;
 
@@ -53,8 +53,9 @@ html {
   color: #0654C8;
 }
 
-.start-game {
+.real-guitar-hero__start-button {
   display: block;
+  width: 160px;
   padding: 10px 25px;
 
   border: none;
