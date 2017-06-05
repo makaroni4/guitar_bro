@@ -200,8 +200,7 @@ $(function() {
 
   songLoader.populateSelectMenu($songSelect);
 
-  $(document).on("note_detected", function(event, note, freq, error) {
-    note = note[1];
+  $(document).on("note_detected", function(event, note) {
     highlightFret(note);
 
     var rockIndex = rocks.findIndex(function(r) {

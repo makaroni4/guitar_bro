@@ -188,7 +188,7 @@ function AudioProcessor() {
     }
 
     if (min_freq_error < 20){
-      $(document).trigger("note_detected", [freqs[best_chord_ind], frequency, min_freq_error]);
+      $(document).trigger("note_detected", freqs[best_chord_ind][1]);
     }
 
   }
