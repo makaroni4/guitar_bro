@@ -8,6 +8,7 @@ function SongLoader() {
     }),
     "Happy Birthday": parseSong("0,4-0,8-2,4-4,4-4,4-4,2"),
     "Happy Birthday V2": parseSongDashed("0-0-2--0--5-4----0-0-2--0----7-5----0-0-9--7-5-4--2-2----10-10-9--5--7-5"),
+    "Guess what": parseSongDashed("0--3--5---0--3--6--5---0--3--5---3--0"),
   }
 
   function parseSong(encodedSong) {
@@ -21,8 +22,9 @@ function SongLoader() {
       return [note, duration];
     });
   }
-
+  
   function parseSongDashed(encodedSong) {
+    const notes = ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"];
     let song = [];
     let duration = 0;
     let last_note;
@@ -39,8 +41,10 @@ function SongLoader() {
         duration += 1;
       }
     }
+    song.push([last_note, 8/8.0]);
     return song;
   }
+
 
   return {
     songs: songs,
