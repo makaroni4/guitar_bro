@@ -138,9 +138,15 @@ $(function() {
       $startButton = $game.find(".real-guitar-hero__start-button"),
       $bpmInput = $game.find(".real-guitar-hero__bpm-input"),
       $songSelect = $game.find(".real-guitar-hero__song-select"),
+      $stringSelect = $game.find(".real-guitar-hero__string-select"),
       $score = $game.find(".real-guitar-hero__score");
 
   songLoader.populateSelectMenu($songSelect);
+
+  var processor = new AudioProcessor();
+
+  processor.setString($stringSelect.val());
+  processor.attached();
 
   $(document).on("note_detected", function(event, note) {
     fretboard.highlightFret(note);
@@ -185,6 +191,7 @@ $(function() {
 
     if(continueAnimating) {
       initRocks(songIndex);
+      processor.setString($stringSelect.val());
     }
 
     $startButton.text($startButton.data(continueAnimating ? "stop" : "start"));

@@ -9,8 +9,8 @@
   <script src="js/explosion_effect.js" type="text/javascript" charset="utf-8" async defer></script>
   <script src="js/fretboard.js" type="text/javascript" charset="utf-8" async defer></script>
   <script src="js/audio_wave.js" type="text/javascript" charset="utf-8" async defer></script>
-  <script src="js/fft.js" type="text/javascript" charset="utf-8" async defer></script>
-  <script src="js/notes.js" type="text/javascript" charset="utf-8" async defer></script>
+  <script src="js/audio_processor.js" type="text/javascript" charset="utf-8" async defer></script>
+  <script src="js/app.js" type="text/javascript" charset="utf-8" async defer></script>
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
@@ -30,6 +30,15 @@
       <label class="real-guitar-hero__song-select-label">
         Select a song
         <select class="real-guitar-hero__song-select">
+        </select>
+      </label>
+
+      <!-- TODO: load with JS -->
+      <label class="real-guitar-hero__string-select-label">
+        Select a string
+        <select class="real-guitar-hero__string-select">
+          <option value="1" selected="selected">1. E-string (hightest)</option>
+          <option value="6">6. E-string (lowest)</option>
         </select>
       </label>
 

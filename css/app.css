@@ -25,22 +25,24 @@ html {
 
 .real-guitar-hero__bpm-input {
   display: block;
-  width: 160px;
+  width: 250px;
   padding: 8px;
 
   font-size: 24px;
   line-height: 32px;
 }
 
-.real-guitar-hero__song-select-label {
+.real-guitar-hero__song-select-label,
+.real-guitar-hero__string-select-label {
   display: block;
 
   color: grey;
 }
 
-.real-guitar-hero__song-select {
+.real-guitar-hero__song-select,
+.real-guitar-hero__string-select {
   display: block;
-  width: 160px;
+  width: 250px;
 
   background-color: #FFF;
 
@@ -55,7 +57,7 @@ html {
 
 .real-guitar-hero__start-button {
   display: block;
-  width: 160px;
+  width: 250px;
   padding: 10px 25px;
 
   border: none;
@@ -76,8 +78,8 @@ html {
 }
 
 .audio-wave {
-  width: 350px;
-  height: 200px;
+  width: 250px;
+  height: 150px;
 }
 
 path {
