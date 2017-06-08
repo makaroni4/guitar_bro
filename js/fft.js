@@ -1,3 +1,46 @@
+
+  const Strings = {
+    1: {
+      range : [325, 665],
+      freqs: [
+          [329.6, "E"],
+          [349.2, "F"],
+          [370.0, "F#"],
+          [392.0, "G"],
+          [415.3, "G#"],
+          [440.0, "A"],
+          [466.1, "A#"],
+          [493.8, "B"],
+          [523.2, "C"],
+          [554.3, "C#"],
+          [587.3, "D"],
+          [622.2, "D#"],
+          [659.2, "E"],
+        ]
+      },
+
+    6: {
+      range : [75, 170],
+      freqs : [
+        [82.4, "E"],
+        [87.3, "F"],
+        [92.5, "F#"],
+        [98.0, "G"],
+        [103.8, "G#"],
+        [110.0, "A"],
+        [116.5, "A#"],
+        [123.5, "B"],
+        [130.8, "C"],
+        [138.6, "C#"],
+        [146.8, "D"],
+        [155.6, "D#"],
+        [164.8, "E"],
+        ]
+    }
+  }
+
+var string = Strings[6];
+
 // https://github.com/GoogleChrome/guitar-tuner
 function AudioProcessor() {
   this.FFTSIZE = 2048 * 4;
@@ -17,7 +60,7 @@ function AudioProcessor() {
 
   this.sendingAudioData = false;
 
-  this.last_wave_power = 0;
+  this.lastNoteEnergy = 0;
   this.wave_power_threshold = 0.006;
   this.last_note_time = -1;
 
@@ -77,13 +120,14 @@ function AudioProcessor() {
 
   }
 
+  this.setString = function(string_num){
+    string = Strings[string_num];
+  }
 
-  this.find_note_freq = function(time) {
-    let wave_power = 0;
-
+  this.findNoteFreq = function(time) {
     let freq_step = that.audioContext.sampleRate / this.FFTSIZE;
-    let min_freq_ind = Math.round(300 / freq_step);
-    let max_freq_ind = Math.round(670 / freq_step);
+    let min_freq_ind = Math.round(string.range[0] / freq_step);
+    let max_freq_ind = Math.round(string.range[1] / freq_step);
 
     // Fill up the data.
 
@@ -93,11 +137,6 @@ function AudioProcessor() {
     wave = that.timeBuffer;
 
     plotWave(wave);
-
-    for (let d = 0; d < wave.length; d++) {
-      wave_power += wave[d] * wave[d];
-    }
-    wave_power = Math.sqrt(wave_power / wave.length);
 
 
     for (let d = Math.round(Math.max(min_freq_ind - 20 / freq_step - 5, 0)); d < Math.min(max_freq_ind + 20 / freq_step + 5, freq.length); d++) {
@@ -124,53 +163,38 @@ function AudioProcessor() {
       maximum_energy += freq[i];
     }
 
-    if (maximum_energy / total_energy < 0.96){
+    if (maximum_energy < 0.1 || maximum_energy / total_energy < 0.96){
       return -1;
     }
 
     if (time > this.last_note_time + 100){
-      this.last_wave_power = 0;
+      this.lastNoteEnergy = 0;
     }
 
-    if (wave_power < this.last_wave_power){
-      return -1;
-    }
+    // if (maximum_energy < this.lastNoteEnergy){
+    //   return -1;
+    // }
+    // console.log(arg_max * freq_step, maximum_energy);
 
     this.last_note_time = time;
-    this.last_wave_power = wave_power;
+    this.lastNoteEnergy = maximum_energy;
 
     return arg_max * freq_step;
   }
 
+
   this.dispatchAudioData = function(time) {
 
-    let freqs = [
-      [329.6, "E"],
-      [349.2, "F"],
-      [370.0, "F#"],
-      [392.0, "G"],
-      [415.3, "G#"],
-      [440.0, "A"],
-      [466.1, "A#"],
-      [493.8, "B"],
-      [523.2, "C"],
-      [554.3, "C#"],
-      [587.3, "D"],
-      [622.2, "D#"],
-      [659.2, "E"],
-    ];
-
-    // Always set up the next pass here, because we could
-    // early return from this pass if there's not a lot
-    // of exciting data to deal with.
     if (that.sendingAudioData) {
       requestAnimationFrame(that.dispatchAudioData);
     }
 
-    let frequency = that.find_note_freq(time);
+    let frequency = that.findNoteFreq(time);
     if (frequency < 0){
       return;
     }
+
+    let freqs = string.freqs;
 
     let min_freq_error = 10000;
     let best_chord_ind = 0;
