@@ -1,4 +1,13 @@
 $(function() {
+  var $game = $(".real-guitar-hero"),
+      $startButton = $game.find(".real-guitar-hero__start-button"),
+      $bpmInput = $game.find(".game-settings__bpm-input"),
+      $songSelect = $game.find(".game-settings__song-select"),
+      $stringSelect = $game.find(".game-settings__string-select"),
+      $score = $game.find(".score__points"),
+      $settings = $game.find(".game-settings"),
+      $toggleSettings = $game.find(".js-toggle-settings");
+
   // song loader
   var songLoader = new SongLoader();
 
@@ -12,6 +21,14 @@ $(function() {
 
   //canvas variables
   var canvas = document.getElementById("game-canvas");
+  var canvasPadding = 200;
+
+  canvas.width = window.innerWidth - canvasPadding;
+  canvas.height = window.innerHeight - canvasPadding;
+
+  $game.css("width", window.innerWidth - canvasPadding);
+  $game.css("height", window.innerHeight - canvasPadding);
+
   var ctx = canvas.getContext("2d");
   var explosion = new ExplosionEffect(ctx);
 
@@ -134,13 +151,6 @@ $(function() {
     explosion.draw();
   }
 
-  var $game = $(".real-guitar-hero"),
-      $startButton = $game.find(".real-guitar-hero__start-button"),
-      $bpmInput = $game.find(".real-guitar-hero__bpm-input"),
-      $songSelect = $game.find(".real-guitar-hero__song-select"),
-      $stringSelect = $game.find(".real-guitar-hero__string-select"),
-      $score = $game.find(".real-guitar-hero__score");
-
   songLoader.populateSelectMenu($songSelect);
 
   var processor = new AudioProcessor();
@@ -197,5 +207,11 @@ $(function() {
     $startButton.text($startButton.data(continueAnimating ? "stop" : "start"));
 
     animate();
+  });
+
+  $toggleSettings.on("click", function(e) {
+    e.preventDefault();
+
+    $settings.toggleClass("game-settings--active");
   });
 });

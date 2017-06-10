@@ -13,42 +13,62 @@
   <script src="js/app.js" type="text/javascript" charset="utf-8" async defer></script>
   <link rel="stylesheet" href="css/app.css">
 </head>
+
 <body>
   <div class="real-guitar-hero">
-    <div class="real-guitar-hero__canvas">
-      <canvas id="game-canvas" width="600" height="400"></canvas>
+    <div class="real-guitar-hero__header">
+      <header class="header">
+        <div class="header__logo">
+          REAL GUITAR HERO
+        </div>
+
+        <div class="header__audio-wave">
+          <div class="audio-wave">
+          </div>
+        </div>
+
+        <div class="header__score score">
+          Score: <span class="score__points">0</span>
+        </div>
+      </header>
     </div>
 
-    <div class="real-guitar-hero__controls">
-      <button class="real-guitar-hero__start-button" data-start="Start Game" data-stop="Stop Game">Start Game</button>
+    <div class="real-guitar-hero__canvas">
+      <canvas id="game-canvas"></canvas>
+    </div>
 
-      <label class="real-guitar-hero__bpm-input-label">
+    <button class="real-guitar-hero__start-button" data-start="Start Game" data-stop="Stop Game">
+      Start Game
+    </button>
+
+    <a href="#" class="real-guitar-hero__settings js-toggle-settings">
+      Settings
+    </a>
+
+    <div class="game-settings">
+      <a href="#" class="game-settings__close js-toggle-settings">
+        Close
+      </a>
+
+      <label class="game-settings__bpm-input-label">
         BPM
-        <input class="real-guitar-hero__bpm-input" type="number" value="60" />
+        <input class="game-settings__bpm-input" type="number" value="60" />
       </label>
 
-      <label class="real-guitar-hero__song-select-label">
+      <label class="game-settings__song-select-label">
         Select a song
-        <select class="real-guitar-hero__song-select">
+        <select class="game-settings__song-select">
         </select>
       </label>
 
       <!-- TODO: load with JS -->
-      <label class="real-guitar-hero__string-select-label">
+      <label class="game-settings__string-select-label">
         Select a string
-        <select class="real-guitar-hero__string-select">
+        <select class="game-settings__string-select">
           <option value="1" selected="selected">1. E-string (hightest)</option>
           <option value="6">6. E-string (lowest)</option>
         </select>
       </label>
-
-      <div class="real-guitar-hero__audio-wave">
-        <div class="audio-wave">
-        </div>
-      </div>
-
-      <div class="real-guitar-hero__score">
-      </div>
     </div>
   </div>
 </body>

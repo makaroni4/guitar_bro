@@ -6,24 +6,77 @@ html {
   box-sizing: inherit;
 }
 
-.real-guitar-hero {
+.header {
   display: flex;
+  align-items: center;
+  height: 60px;
 }
 
-.real-guitar-hero__controls {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.header__logo {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: bold;
+}
+
+.header__audio-wave {
   margin-left: 20px;
 }
 
-.real-guitar-hero__bpm-input-label {
+.header__score {
+  margin-left: auto;
+
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.real-guitar-hero {
+  margin: 0 auto;
+}
+
+.real-guitar-hero__canvas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.real-guitar-hero__settings {
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.game-settings {
+  display: none;
+  padding: 40px 16px 16px;
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  border-left: 1px solid #F1F1F1;
+
+  background-color: white;
+}
+
+.game-settings--active {
+  display: block;
+}
+
+.game-settings__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.game-settings__bpm-input-label {
   display: block;
 
   color: grey;
 }
 
-.real-guitar-hero__bpm-input {
+.game-settings__bpm-input {
   display: block;
   width: 250px;
   padding: 8px;
@@ -32,15 +85,16 @@ html {
   line-height: 32px;
 }
 
-.real-guitar-hero__song-select-label,
-.real-guitar-hero__string-select-label {
+.game-settings__song-select-label,
+.game-settings__string-select-label {
   display: block;
+  margin-top: 16px;
 
   color: grey;
 }
 
-.real-guitar-hero__song-select,
-.real-guitar-hero__string-select {
+.game-settings__song-select,
+.game-settings__string-select {
   display: block;
   width: 250px;
 
@@ -58,6 +112,7 @@ html {
 .real-guitar-hero__start-button {
   display: block;
   width: 250px;
+  margin: 20px auto 0;
   padding: 10px 25px;
 
   border: none;
@@ -78,8 +133,8 @@ html {
 }
 
 .audio-wave {
-  width: 250px;
-  height: 150px;
+  width: 60px;
+  height: 32px;
 }
 
 path {
