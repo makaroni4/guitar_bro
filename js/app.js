@@ -34,14 +34,14 @@ $(function() {
 
   // game variables
   var continueAnimating = false;
-  var score = 50;
+  var score = 0;
 
   // block variables
   var pegWidth = 2;
 
   // rock variables
   var rockWidth = canvas.width / 12;
-  var rockFontSize = 0.6 * rockWidth;
+  var rockFontSize = 0.5 * rockWidth;
   var rockSpeed;
   var rockHeight = rockWidth;
   var eightsDurationDistance = rockHeight;
@@ -136,18 +136,28 @@ $(function() {
       var rock = rocks[i];
 
       if(rock.y + rock.height > 0) {
-        ctx.fillStyle = "#FFA100";
-        ctx.fillRect(rock.x, rock.y, rock.width, rock.height);
-
         ctx.font = rockFontSize + "px Times New Roman";
-        ctx.fillStyle = "#FFF";
+
+        var lineWidth = 8;
+        ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = "#FFF";
+        ctx.textAlign="center";
+        ctx.textBaseline = "middle";
 
         var textString = rock.note,
-            textWidth = ctx.measureText(textString).width,
-            textHeight = ctx.measureText(textString).height;
+            textWidth = ctx.measureText(textString).width;
 
-        ctx.fillText(textString, rock.x + (rockWidth - textWidth) / 2, rock.y + (rockHeight + rockFontSize) / 2);
+        ctx.beginPath();
+        ctx.arc(rock.x + rockWidth / 2 - pegWidth / 2, rock.y + rockHeight / 2, rock.width / 2 - lineWidth / 2, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fillStyle = "#FFA100";
+        ctx.fill();
+
+        ctx.fillStyle = "#FFF";
+        ctx.fillText(textString, rock.x + rockWidth / 2, rock.y + rockHeight / 2);
       }
+
+      ctx.lineWidth = 1;
     }
 
     $score.text(score);
