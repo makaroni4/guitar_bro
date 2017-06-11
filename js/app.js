@@ -193,6 +193,8 @@ $(function() {
   });
 
   $startButton.on("click", function () {
+    $settings.removeClass("game-settings--active");
+
     var beatDuration = 60 / $bpmInput.val();
 
     rockSpeed = eightsDurationDistance * 8 / (fps * beatDuration);
