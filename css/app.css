@@ -13,9 +13,10 @@ html {
 }
 
 .header__logo {
-  font-family: 'Faster One', cursive;
+  font-family: "Faster One", cursive;
   font-size: 32px;
   line-height: 48px;
+  color: #1D3557;
 }
 
 .header__audio-wave {
@@ -25,8 +26,10 @@ html {
 .header__score {
   margin-left: auto;
 
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 32px;
+  line-height: 48px;
+  font-weight: bold;
+  color: #A8DADC;
 }
 
 .real-guitar-hero {

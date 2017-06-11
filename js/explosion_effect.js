@@ -13,16 +13,7 @@ function ExplosionEffect(ctx) {
     this.xv   = randInt(particlesMinSpeed, particlesMaxSpeed, false);
     this.yv   = randInt(particlesMinSpeed, particlesMaxSpeed, false);
     this.size = randInt(particlesMinSize, particlesMaxSize, true);
-
-    if(correctAnswer) {
-      this.r    = randInt(78, 98);
-      this.g    = 221;
-      this.b    = randInt(134, 154);
-    } else {
-      this.r    = 237;
-      this.g    = randInt(27, 47);
-      this.b    = randInt(68, 88);
-    }
+    this.color = correctAnswer ? "#A8DADC" : "#E63946";
   }
 
   function explosion(x, y, correctAnswer) {
@@ -66,7 +57,7 @@ function ExplosionEffect(ctx) {
           ctx.beginPath();
           ctx.arc(particle.x, particle.y, particle.size, Math.PI * 2, 0, false);
           ctx.closePath();
-          ctx.fillStyle = 'rgb(' + particle.r + ',' + particle.g + ',' + particle.b + ')';
+          ctx.fillStyle = particle.color;
           ctx.fill();
 
           // Update

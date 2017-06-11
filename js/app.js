@@ -12,7 +12,7 @@ $(function() {
   var songLoader = new SongLoader();
 
   // fps options
-  var fps = 30,
+  var fps = 50,
       fpsInterval = 1000 / fps,
       startTime,
       now,
@@ -150,7 +150,7 @@ $(function() {
         ctx.beginPath();
         ctx.arc(rock.x + rockWidth / 2 - pegWidth / 2, rock.y + rockHeight / 2, rock.width / 2 - lineWidth / 2, 0, 2 * Math.PI);
         ctx.stroke();
-        ctx.fillStyle = "#FFA100";
+        ctx.fillStyle = "#1D3557";
         ctx.fill();
 
         ctx.fillStyle = "#FFF";
