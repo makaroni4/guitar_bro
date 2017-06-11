@@ -40,7 +40,8 @@ $(function() {
   var pegWidth = 2;
 
   // rock variables
-  var rockWidth = 50;
+  var rockWidth = canvas.width / 12;
+  var rockFontSize = 0.6 * rockWidth;
   var rockSpeed;
   var rockHeight = rockWidth;
   var eightsDurationDistance = rockHeight;
@@ -138,11 +139,14 @@ $(function() {
         ctx.fillStyle = "#FFA100";
         ctx.fillRect(rock.x, rock.y, rock.width, rock.height);
 
-        ctx.font = "28px Times New Roman";
+        ctx.font = rockFontSize + "px Times New Roman";
         ctx.fillStyle = "#FFF";
-        ctx.textAlign="center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(rock.note, rock.x + 25, rock.y + 25);
+
+        var textString = rock.note,
+            textWidth = ctx.measureText(textString).width,
+            textHeight = ctx.measureText(textString).height;
+
+        ctx.fillText(textString, rock.x + (rockWidth - textWidth) / 2, rock.y + (rockHeight + rockFontSize) / 2);
       }
     }
 
