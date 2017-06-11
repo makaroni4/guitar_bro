@@ -107,7 +107,7 @@ $(function() {
         if (rock.y > canvas.height) {
           score -= 10;
 
-          explosion.add(rock.x, canvas.height - 5, false);
+          explosion.add(rock.x + rock.width / 2, canvas.height - 5, false);
 
           rock.y = calculateRockY(i);
         }
