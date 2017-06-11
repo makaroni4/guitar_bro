@@ -17,8 +17,9 @@ function AudioWaveChart() {
     var graph = d3.select(".audio-wave").append("svg:svg")
                   .attr("width", w)
                   .attr("height", h)
-                  .append("svg:g")
-    graph.append("svg:path").attr("class", "line").attr("d", line([{x: 0, y:0}, {x:1, y:1}]));
+                  .append("svg:g");
+
+    graph.append("svg:path").attr("class", "line");
 
     var setDomain = function(data_xy){
         x_scale.domain(d3.extent(data_xy, function(d){ return d.x}));
