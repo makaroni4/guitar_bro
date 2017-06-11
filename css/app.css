@@ -13,9 +13,9 @@ html {
 }
 
 .header__logo {
-  font-size: 24px;
-  line-height: 32px;
-  font-weight: bold;
+  font-family: 'Faster One', cursive;
+  font-size: 32px;
+  line-height: 48px;
 }
 
 .header__audio-wave {
