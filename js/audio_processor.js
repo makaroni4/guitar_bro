@@ -61,6 +61,8 @@ function AudioProcessor() {
   this.wave_power_threshold = 0.006;
   this.last_note_time = -1;
 
+  var audioWaveChart = new AudioWaveChart();
+
   var string;
   var that = this;
 
@@ -134,8 +136,7 @@ function AudioProcessor() {
     freq = that.frequencyBuffer;
     wave = that.timeBuffer;
 
-    plotWave(wave);
-
+    audioWaveChart.plotWave(wave);
 
     for (let d = Math.round(Math.max(min_freq_ind - 20 / freq_step - 5, 0)); d < Math.min(max_freq_ind + 20 / freq_step + 5, freq.length); d++) {
       freq[d] = Math.pow(10, 5 + freq[d] / 10);
