@@ -21,15 +21,12 @@ $(function() {
 
   //canvas variables
   var canvas = document.getElementById("game-canvas");
-  var canvasPadding = 200;
-
-  canvas.width = window.innerWidth - canvasPadding;
-  canvas.height = window.innerHeight - canvasPadding;
-
-  $game.css("width", window.innerWidth - canvasPadding);
-  $game.css("height", window.innerHeight - canvasPadding);
+  var canvasPadding = 0;
 
   var ctx = canvas.getContext("2d");
+  ctx.canvas.width = window.innerWidth - canvasPadding;
+  ctx.canvas.height = window.innerHeight - canvasPadding;
+
   var explosion = new ExplosionEffect(ctx);
 
   // game variables
@@ -37,7 +34,7 @@ $(function() {
   var score = 0;
 
   // block variables
-  var pegWidth = 2;
+  var pegWidth = 1;
 
   // rock variables
   var rockWidth = canvas.width / 12;
@@ -86,8 +83,10 @@ $(function() {
   }
 
   function animate() {
-    if (continueAnimating) {
+    if(continueAnimating) {
       requestAnimationFrame(animate);
+    } else {
+      return;
     }
 
     now = Date.now();
@@ -126,7 +125,7 @@ $(function() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // draw the background
-    ctx.fillStyle = "ivory";
+    ctx.fillStyle = "#1D3557";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     fretboard.draw();
@@ -136,7 +135,7 @@ $(function() {
       var rock = rocks[i];
 
       if(rock.y + rock.height > 0) {
-        ctx.font = rockFontSize + "px Times New Roman";
+        ctx.font = rockFontSize + "px Source Sans Pro, sans-serif";
 
         var lineWidth = 8;
         ctx.lineWidth = lineWidth;
@@ -216,6 +215,7 @@ $(function() {
     continueAnimating = !continueAnimating;
 
     if(continueAnimating) {
+      $startButton.hide();
       initRocks(songIndex);
       processor.setString($stringSelect.val());
     }
@@ -229,5 +229,12 @@ $(function() {
     e.preventDefault();
 
     $settings.toggleClass("game-settings--active");
+  });
+
+  $(document).on("keydown", function(e) {
+    if(e.keyCode === 32) {
+      continueAnimating = !continueAnimating;
+      animate();
+    }
   });
 });

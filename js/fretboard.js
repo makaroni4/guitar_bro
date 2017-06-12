@@ -19,21 +19,26 @@ function Fretboard(canvas, songLoader, rockWidth, pegWidth) {
     ctx.fill();
   }
 
+  function drawLine(x, y, x1, y1) {
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+  }
+
   return {
     draw: function() {
-      ctx.fillStyle = "skyblue";
-      ctx.fillRect(block.x, block.y, block.width, blockHeight);
-      ctx.strokeStyle = "lightgray";
-      ctx.strokeRect(block.x, block.y, block.width, blockHeight);
-
-      for(var i = 0; i < songLoader.notes.length; i++) {
-        ctx.fillStyle = "#FFF";
-        ctx.fillRect(i * rockWidth, block.y, pegWidth, blockHeight);
+      ctx.strokeStyle = "#F1FAEE";
+      ctx.lineWidth = 1;
+      for(var i = 1; i < songLoader.notes.length; i++) {
+        var x = i * rockWidth + pegWidth;
+        drawLine(x, block.y, x, canvas.height);
       }
+      drawLine(0, block.y, canvas.width, block.y);
 
       // draw single circles
       var circleFrets = [2, 4, 6, 8];
-      var cirlceColor = "#FFF";
+      var cirlceColor = "#F1FAEE";
       var verticalMiddle = canvas.height - blockHeight / 2;
       var circleSize = (blockHeight / 6 - 1) / 2;
 
