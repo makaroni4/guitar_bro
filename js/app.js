@@ -221,8 +221,6 @@ $(function() {
       processor.setString($stringSelect.val());
     }
 
-    $restartButton.text($restartButton.data(continueAnimating ? "stop" : "start"));
-
     animate();
   });
 
@@ -230,15 +228,24 @@ $(function() {
     e.preventDefault();
 
     $settings.toggleClass("game-settings--active");
+
+    continueAnimating = !$settings.hasClass("game-settings--active");
+    animate();
   });
+
+  var toggleGame = function() {
+    continueAnimating = !continueAnimating;
+
+    if(continueAnimating) {
+      $settings.removeClass("game-settings--active");
+    }
+
+    animate();
+  }
 
   $(document).on("keydown", function(e) {
     if(e.keyCode === 32) {
-      continueAnimating = !continueAnimating;
-
-      $restartButton.text($restartButton.data(continueAnimating ? "stop" : "start"));
-
-      animate();
+      toggleGame();
     }
   });
 });
