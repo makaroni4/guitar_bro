@@ -133,6 +133,26 @@ html {
   line-height: 24px;
 }
 
+.game-settings__restart {
+  display: block;
+  padding: 16px 8px;
+  width: 250px;
+  margin-top: 20px;
+
+  border-radius: 2px;
+
+  background-color: #1D3557;
+
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
+  color: #F1FAEE;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-align: center;
+}
+
 .real-guitar-hero__score {
   font-size: 24px;
   color: #0654C8;

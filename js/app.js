@@ -1,6 +1,7 @@
 $(function() {
   var $game = $(".real-guitar-hero"),
       $startButton = $game.find(".real-guitar-hero__start-button"),
+      $restartButton = $game.find(".js-restart"),
       $bpmInput = $game.find(".game-settings__bpm-input"),
       $songSelect = $game.find(".game-settings__song-select"),
       $stringSelect = $game.find(".game-settings__string-select"),
@@ -201,7 +202,7 @@ $(function() {
     rock.y = calculateRockY(rockIndex);
   });
 
-  $startButton.on("click", function () {
+  $restartButton.on("click", function () {
     $settings.removeClass("game-settings--active");
 
     var beatDuration = 60 / $bpmInput.val();
@@ -220,7 +221,7 @@ $(function() {
       processor.setString($stringSelect.val());
     }
 
-    $startButton.text($startButton.data(continueAnimating ? "stop" : "start"));
+    $restartButton.text($restartButton.data(continueAnimating ? "stop" : "start"));
 
     animate();
   });
@@ -234,6 +235,9 @@ $(function() {
   $(document).on("keydown", function(e) {
     if(e.keyCode === 32) {
       continueAnimating = !continueAnimating;
+
+      $restartButton.text($restartButton.data(continueAnimating ? "stop" : "start"));
+
       animate();
     }
   });
