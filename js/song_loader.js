@@ -22,7 +22,7 @@ function SongLoader() {
       return [note, duration];
     });
   }
-  
+
   function parseSongDashed(encodedSong) {
     const notes = ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"];
     let song = [];

@@ -136,7 +136,7 @@ $(function() {
       var rock = rocks[i];
 
       if(rock.y + rock.height > 0) {
-        ctx.font = rockFontSize + "px Source Sans Pro, sans-serif";
+        ctx.font = "bold " + rockFontSize + "px Source Sans Pro, sans-serif";
 
         var lineWidth = 8;
         ctx.lineWidth = lineWidth;
