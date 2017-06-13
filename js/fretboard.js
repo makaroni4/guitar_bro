@@ -8,12 +8,13 @@ function Fretboard(canvas, songLoader, rockWidth, pegWidth) {
         height: blockHeight
       };
 
-  var highlightedFret;
+  var highlightedFret,
+      highlightedColor = gameConfig.colors.yellow;
 
   function drawCircle(x, y) {
     var circleSize = (blockHeight / 6 - 1) / 2;
 
-    ctx.fillStyle = "#FFF";
+    ctx.fillStyle = gameConfig.colors.white;
     ctx.beginPath();
     ctx.arc(x, y, circleSize, 0, 2 * Math.PI);
     ctx.fill();
@@ -28,7 +29,7 @@ function Fretboard(canvas, songLoader, rockWidth, pegWidth) {
 
   return {
     draw: function() {
-      ctx.strokeStyle = "#F1FAEE";
+      ctx.strokeStyle = gameConfig.colors.white;
       ctx.lineWidth = 1;
       for(var i = 1; i < songLoader.notes.length; i++) {
         var x = i * rockWidth + pegWidth;
@@ -38,7 +39,7 @@ function Fretboard(canvas, songLoader, rockWidth, pegWidth) {
 
       // draw single circles
       var circleFrets = [2, 4, 6, 8];
-      var cirlceColor = "#F1FAEE";
+      var cirlceColor = gameConfig.colors.white;
       var verticalMiddle = canvas.height - blockHeight / 2;
       var circleSize = (blockHeight / 6 - 1) / 2;
 
@@ -52,14 +53,15 @@ function Fretboard(canvas, songLoader, rockWidth, pegWidth) {
       drawCircle((rockWidth * 11) + rockWidth / 2 + pegWidth, canvas.height - block.height + 2.5 * circleSize);
 
       if(typeof(highlightedFret) === "number") {
-        ctx.fillStyle = "#F991CC";
+        ctx.fillStyle = highlightedColor;
         ctx.fillRect(highlightedFret * rockWidth, block.y, rockWidth - pegWidth, rockWidth);
       }
     },
-    highlightFret: function(note) {
+    highlightFret: function(note, color) {
       var fretIndex = songLoader.findNoteIndex(note);
 
       highlightedFret = fretIndex;
+      highlightedColor = color ? color : gameConfig.colors.yellow;
 
       setTimeout(function() {
         highlightedFret = undefined;

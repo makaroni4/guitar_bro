@@ -13,8 +13,7 @@ $(function() {
   var songLoader = new SongLoader();
 
   // fps options
-  var fps = 50,
-      fpsInterval = 1000 / fps,
+  var fpsInterval = 1000 / gameConfig.fps,
       startTime,
       now,
       then,
@@ -105,11 +104,14 @@ $(function() {
         rock.y += rockSpeed;
 
         if (rock.y > canvas.height) {
-          score -= 10;
+          if(!rock.highlightColor) {
+            score -= 10;
+          }
 
-          explosion.add(rock.x + rock.width / 2, canvas.height - 5, false);
+          explosion.add(rock.x + rock.width / 2, canvas.height - 5, !!rock.highlightColor);
 
           rock.y = calculateRockY(i);
+          rock.highlightColor = undefined;
         }
       }
 
@@ -126,7 +128,7 @@ $(function() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // draw the background
-    ctx.fillStyle = "#1D3557";
+    ctx.fillStyle = gameConfig.colors.dark_blue;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     fretboard.draw();
@@ -140,7 +142,7 @@ $(function() {
 
         var lineWidth = 8;
         ctx.lineWidth = lineWidth;
-        ctx.strokeStyle = "#FFF";
+        ctx.strokeStyle = rock.highlightColor ? rock.highlightColor : gameConfig.colors.white;
         ctx.textAlign="center";
         ctx.textBaseline = "middle";
 
@@ -150,10 +152,10 @@ $(function() {
         ctx.beginPath();
         ctx.arc(rock.x + rockWidth / 2 - pegWidth / 2, rock.y + rockHeight / 2, rock.width / 2 - lineWidth / 2, 0, 2 * Math.PI);
         ctx.stroke();
-        ctx.fillStyle = "#1D3557";
+        ctx.fillStyle = gameConfig.colors.dark_blue;
         ctx.fill();
 
-        ctx.fillStyle = "#FFF";
+        ctx.fillStyle = gameConfig.colors.white;
         ctx.fillText(textString, rock.x + rockWidth / 2, rock.y + rockHeight / 2);
       }
 
@@ -173,23 +175,25 @@ $(function() {
   processor.attached();
 
   $(document).on("note_detected", function(event, note) {
-    fretboard.highlightFret(note);
-
     var rockIndex = rocks.findIndex(function(r) {
       return r.y >= canvas.height - 2 * rockHeight;
     });
 
     if(rockIndex === -1) {
+      fretboard.highlightFret(note);
       return;
     }
 
     var rock = rocks[rockIndex];
 
     if(!isColliding(rock)) {
+      fretboard.highlightFret(note);
       return;
     }
 
     var correctAnswer = note === rock.note;
+
+    fretboard.highlightFret(note, correctAnswer ? gameConfig.colors.green : gameConfig.colors.red);
 
     if(correctAnswer) {
       score += 10;
@@ -197,9 +201,9 @@ $(function() {
       score -= 10;
     }
 
-    explosion.add(rock.x, rock.y, correctAnswer)
+    explosion.add(rock.x, rock.y, correctAnswer);
 
-    rock.y = calculateRockY(rockIndex);
+    rock.highlightColor = correctAnswer ? gameConfig.colors.green : gameConfig.colors.red;
   });
 
   $restartButton.on("click", function () {
@@ -207,7 +211,7 @@ $(function() {
 
     var beatDuration = 60 / $bpmInput.val();
 
-    rockSpeed = eightsDurationDistance * 8 / (fps * beatDuration);
+    rockSpeed = eightsDurationDistance * 8 / (gameConfig.fps * beatDuration);
 
     var songIndex = $songSelect.val();
 

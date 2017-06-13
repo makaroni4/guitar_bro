@@ -13,7 +13,7 @@ function ExplosionEffect(ctx) {
     this.xv   = randInt(particlesMinSpeed, particlesMaxSpeed, false);
     this.yv   = randInt(particlesMinSpeed, particlesMaxSpeed, false);
     this.size = randInt(particlesMinSize, particlesMaxSize, true);
-    this.color = correctAnswer ? "#A8DADC" : "#E63946";
+    this.color = correctAnswer ? gameConfig.colors.green : gameConfig.colors.red;
   }
 
   function explosion(x, y, correctAnswer) {
