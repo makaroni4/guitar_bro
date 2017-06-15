@@ -33,8 +33,9 @@ $(function() {
   var explosion = new ExplosionEffect(ctx);
 
   // game variables
-  var continueAnimating = false;
-  var score = 0;
+  var continueAnimating = false,
+      score = 0,
+      health = 3;
 
   // block variables
   var pegWidth = 1;
@@ -108,7 +109,7 @@ $(function() {
 
         if (rock.y > canvas.height) {
           if(!rock.highlightColor) {
-            score -= 10;
+            decrementScore();
           }
 
           explosion.add(rock.x + rock.width / 2, canvas.height - 5, !!rock.highlightColor);
@@ -124,6 +125,27 @@ $(function() {
 
   function isColliding(rock) {
     return rock.y > canvas.height - rockHeight;
+  }
+
+  function drawHealth() {
+    console.log(health)
+    var x = canvas.width - 200;
+    var y = 50;
+
+    for(var i = 0; i < health; i++) {
+      ctx.fillStyle = gameConfig.colors.green;
+      ctx.fillRect(x - i * 60, y, 50, 100);
+    }
+  }
+
+  function decrementScore() {
+    score -= 10;
+    health -= 1;
+
+    if(health === 0) {
+      alert("You lost");
+      toggleSettings();
+    }
   }
 
   function drawAll() {
@@ -165,6 +187,8 @@ $(function() {
       ctx.lineWidth = 1;
     }
 
+    drawHealth();
+
     $score.text(score);
 
     explosion.draw();
@@ -201,7 +225,7 @@ $(function() {
     if(correctAnswer) {
       score += 10;
     } else {
-      score -= 10;
+      decrementScore();
     }
 
     explosion.add(rock.x, rock.y, correctAnswer);
