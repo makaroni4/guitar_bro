@@ -43,36 +43,6 @@
     <a href="#" class="real-guitar-hero__settings js-toggle-settings">
       SETTINGS
     </a>
-
-    <div class="game-settings">
-      <a href="#" class="game-settings__close js-toggle-settings">
-        CLOSE
-      </a>
-
-      <label class="game-settings__bpm-input-label">
-        BPM
-        <input class="game-settings__bpm-input" type="number" value="30" />
-      </label>
-
-      <label class="game-settings__song-select-label">
-        Select a song
-        <select class="game-settings__song-select">
-        </select>
-      </label>
-
-      <!-- TODO: load with JS -->
-      <label class="game-settings__string-select-label">
-        Select a string
-        <select class="game-settings__string-select">
-          <option value="1" selected="selected">1. E-string (hightest)</option>
-          <option value="6">6. E-string (lowest)</option>
-        </select>
-      </label>
-
-      <a href="#" class="game-settings__restart js-restart">
-        RESTART GAME
-      </a>
-    </div>
   </div>
 
   <div class="welcome-popup welcome-popup--active">
@@ -84,8 +54,32 @@
       Pick up a string you want to play on (yep, it's "unitar").
     </div>
 
-    <button class="welcome-popup__start-button js-restart">
-      START GAME
+    <div class="welcome-popup__settings">
+      <div class="game-settings">
+        <label class="game-settings__bpm-input-label">
+          BPM
+          <input class="game-settings__bpm-input" type="number" value="30" />
+        </label>
+
+        <label class="game-settings__song-select-label">
+          Select a song
+          <select class="game-settings__song-select">
+          </select>
+        </label>
+
+        <!-- TODO: load with JS -->
+        <label class="game-settings__string-select-label">
+          Select a string
+          <select class="game-settings__string-select">
+            <option value="1" selected="selected">1. E-string (hightest)</option>
+            <option value="6">6. E-string (lowest)</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <button class="welcome-popup__start-button js-start">
+      START NEW GAME
     </button>
   </div>
 </body>

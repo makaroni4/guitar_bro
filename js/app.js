@@ -1,12 +1,12 @@
 $(function() {
   var $game = $(".real-guitar-hero"),
-      $restartButton = $(".js-restart"),
-      $bpmInput = $game.find(".game-settings__bpm-input"),
-      $songSelect = $game.find(".game-settings__song-select"),
-      $stringSelect = $game.find(".game-settings__string-select"),
       $score = $game.find(".score__points"),
-      $settings = $game.find(".game-settings"),
       $toggleSettings = $game.find(".js-toggle-settings");
+
+  var $settings = $(".game-settings"),
+      $bpmInput = $settings.find(".game-settings__bpm-input"),
+      $songSelect = $settings.find(".game-settings__song-select"),
+      $stringSelect = $settings.find(".game-settings__string-select");
 
   var $welcomePopup = $(".welcome-popup"),
       $startButton = $welcomePopup.find(".welcome-popup__start-button");
@@ -209,8 +209,7 @@ $(function() {
     rock.highlightColor = correctAnswer ? gameConfig.colors.green : gameConfig.colors.red;
   });
 
-  $restartButton.on("click", function () {
-    $settings.removeClass("game-settings--active");
+  $startButton.on("click", function () {
     $welcomePopup.removeClass("welcome-popup--active");
 
     var beatDuration = 60 / $bpmInput.val();
@@ -224,7 +223,6 @@ $(function() {
     continueAnimating = !continueAnimating;
 
     if(continueAnimating) {
-      $startButton.hide();
       initRocks(songIndex);
       processor.setString($stringSelect.val());
     }
@@ -232,29 +230,22 @@ $(function() {
     animate();
   });
 
-  $toggleSettings.on("click", function(e) {
-    e.preventDefault();
+  var toggleSettings = function() {
+    $welcomePopup.toggleClass("welcome-popup--active");
 
-    $settings.toggleClass("game-settings--active");
-
-    continueAnimating = !$settings.hasClass("game-settings--active");
-    animate();
-  });
-
-  var toggleGame = function() {
-    continueAnimating = !continueAnimating;
-
-    if(continueAnimating) {
-      $settings.removeClass("game-settings--active");
-      $welcomePopup.removeClass("welcome-popup--active");
-    }
-
+    continueAnimating = !$welcomePopup.hasClass("welcome-popup--active");
     animate();
   }
 
   $(document).on("keydown", function(e) {
     if(e.keyCode === 32) {
-      toggleGame();
+      toggleSettings();
     }
+  });
+
+  $toggleSettings.on("click", function(e) {
+    e.preventDefault();
+
+    toggleSettings();
   });
 });

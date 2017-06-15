@@ -62,31 +62,12 @@ html {
 }
 
 .game-settings {
-  display: none;
-  padding: 40px 16px 16px;
   width: 300px;
   height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
 
   background-color: #F1FAEE;
 }
 
-.game-settings--active {
-  display: block;
-}
-
-.game-settings__close {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-
-  font-family: 'Source Sans Pro', sans-serif;
-  font-weight: bold;
-  color: #1D3557;
-  text-decoration: none;
-}
 
 .game-settings__bpm-input-label {
   display: block;
@@ -160,12 +141,12 @@ html {
   display: none;
   padding: 16px 24px;
   position: absolute;
-  width: 500px;
-  height: 400px;
+  width: 700px;
+  height: 500px;
   top: 50%;
-  margin-top: -200px;
+  margin-top: -250px;
   left: 50%;
-  margin-left: -250px;
+  margin-left: -350px;
 
   border-radius: 4px;
 
@@ -195,13 +176,14 @@ html {
   color: #1D3557;
 }
 
+.welcome-popup__settings {
+  margin-top: 20px;
+}
+
 .welcome-popup__start-button {
+  margin: 50px auto 0;
   display: block;
-  position: absolute;
-  left: 50%;
-  margin-left: -125px;
-  bottom: 40px;
-  width: 250px;
+  width: 300px;
   padding: 10px 25px;
 
   border: none;
