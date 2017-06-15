@@ -1,13 +1,16 @@
 $(function() {
   var $game = $(".real-guitar-hero"),
-      $startButton = $game.find(".real-guitar-hero__start-button"),
-      $restartButton = $game.find(".js-restart"),
+      $restartButton = $(".js-restart"),
       $bpmInput = $game.find(".game-settings__bpm-input"),
       $songSelect = $game.find(".game-settings__song-select"),
       $stringSelect = $game.find(".game-settings__string-select"),
       $score = $game.find(".score__points"),
       $settings = $game.find(".game-settings"),
       $toggleSettings = $game.find(".js-toggle-settings");
+
+  var $welcomePopup = $(".welcome-popup"),
+      $startButton = $welcomePopup.find(".welcome-popup__start-button");
+
 
   // song loader
   var songLoader = new SongLoader();
@@ -208,6 +211,7 @@ $(function() {
 
   $restartButton.on("click", function () {
     $settings.removeClass("game-settings--active");
+    $welcomePopup.removeClass("welcome-popup--active");
 
     var beatDuration = 60 / $bpmInput.val();
 
@@ -242,6 +246,7 @@ $(function() {
 
     if(continueAnimating) {
       $settings.removeClass("game-settings--active");
+      $welcomePopup.removeClass("welcome-popup--active");
     }
 
     animate();
