@@ -9,8 +9,11 @@ $(function() {
       $stringSelect = $settings.find(".game-settings__string-select");
 
   var $welcomePopup = $(".welcome-popup"),
-      $startButton = $welcomePopup.find(".welcome-popup__start-button");
+      $startButton = $(".js-start"),
+      $gameOverPopup = $(".game-over-popup"),
+      $sharingButtons = $(".sharing-buttons");
 
+  var songIndex, stringIndex, bpm;
 
   // song loader
   var songLoader = new SongLoader();
@@ -128,7 +131,6 @@ $(function() {
   }
 
   function drawHealth() {
-    console.log(health)
     var x = canvas.width - 200;
     var y = 50;
 
@@ -143,8 +145,13 @@ $(function() {
     health -= 1;
 
     if(health === 0) {
-      alert("You lost");
       toggleSettings();
+      $sharingButtons.addClass("sharing-buttons--active");
+      $gameOverPopup.addClass("game-over-popup--active");
+
+      $songSelect.val(songIndex);
+      $stringSelect.val(stringIndex);
+      $bpmInput.val(bpm);
     }
   }
 
@@ -196,9 +203,13 @@ $(function() {
 
   songLoader.populateSelectMenu($songSelect);
 
+  songIndex = $songSelect.val();
+  stringIndex = $stringSelect.val();
+  bpm = $bpmInput.val();
+
   var processor = new AudioProcessor();
 
-  processor.setString($stringSelect.val());
+  processor.setString(stringIndex);
   processor.attached();
 
   $(document).on("note_detected", function(event, note) {
@@ -235,20 +246,22 @@ $(function() {
 
   $startButton.on("click", function () {
     $welcomePopup.removeClass("welcome-popup--active");
+    $sharingButtons.removeClass("sharing-buttons--active");
+    $gameOverPopup.removeClass("game-over-popup--active");
 
-    var beatDuration = 60 / $bpmInput.val();
+    var beatDuration = 60 / bpm;
 
     rockSpeed = eightsDurationDistance * 8 / (gameConfig.fps * beatDuration);
-
-    var songIndex = $songSelect.val();
 
     then = Date.now();
     startTime = then;
     continueAnimating = !continueAnimating;
 
     if(continueAnimating) {
+      score = 0;
+      health = 3;
       initRocks(songIndex);
-      processor.setString($stringSelect.val());
+      processor.setString(stringIndex);
     }
 
     animate();
@@ -260,6 +273,18 @@ $(function() {
     continueAnimating = !$welcomePopup.hasClass("welcome-popup--active");
     animate();
   }
+
+  $songSelect.on("change", function(e) {
+    songIndex = $(this).val();
+  });
+
+  $stringSelect.on("change", function(e) {
+    stringIndex = $(this).val();
+  });
+
+  $bpmInput.on("change", function(e) {
+    bpm = $(this).val();
+  });
 
   $(document).on("keydown", function(e) {
     if(e.keyCode === 32) {

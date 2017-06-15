@@ -202,6 +202,81 @@ html {
   cursor: pointer;
 }
 
+.game-over-popup {
+  display: none;
+  padding: 16px 24px;
+  position: absolute;
+  width: 700px;
+  height: 500px;
+  top: 50%;
+  margin-top: -250px;
+  left: 50%;
+  margin-left: -350px;
+
+  border-radius: 4px;
+
+  background-color: #F1FAEE;
+}
+
+.game-over-popup--active {
+  display: block;
+}
+
+.game-over-popup__header {
+  margin: 0;
+  padding: 0;
+
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  color: #1D3557;
+}
+
+.game-over-popup__subheader {
+  margin-top: 20px;
+
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  color: #1D3557;
+}
+
+.game-over-popup__settings {
+  margin-top: 20px;
+}
+
+.sharing-buttons {
+  display: none;
+  position: absolute;
+  width: 100%;
+  bottom: 20px;
+
+  text-align: center;
+}
+
+.sharing-buttons--active {
+  display: block;
+}
+
+.share-button {
+  display: inline-block;
+  padding: 20px 30px;
+
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  color: #1D3557;
+  text-decoration: none;
+}
+
+.share-button--fb {
+  background-color: #3b5998;
+}
+
+.share-button--tw {
+  background-color: #4099FF;
+}
+
 #game-canvas {
 }
 
