@@ -1,7 +1,6 @@
 $(function() {
   var $game = $(".real-guitar-hero"),
-      $score = $game.find(".score__points"),
-      $toggleSettings = $game.find(".js-toggle-settings");
+      $score = $game.find(".score__points");
 
   var $settings = $(".game-settings"),
       $bpmInput = $settings.find(".game-settings__bpm-input"),
@@ -27,13 +26,14 @@ $(function() {
 
   //canvas variables
   var canvas = document.getElementById("game-canvas");
-  var canvasPadding = 0;
 
   var ctx = canvas.getContext("2d");
-  ctx.canvas.width = window.innerWidth - canvasPadding;
-  ctx.canvas.height = window.innerHeight - canvasPadding;
+  ctx.canvas.width = window.innerWidth;
+  ctx.canvas.height = window.innerHeight;
 
   var explosion = new ExplosionEffect(ctx);
+
+  var healthDrawer = new HealthDrawer(ctx);
 
   // game variables
   var continueAnimating = false,
@@ -90,6 +90,10 @@ $(function() {
   }
 
   function animate() {
+    if(health === 0 && !continueAnimating) {
+      clearBackground();
+    }
+
     if(continueAnimating) {
       requestAnimationFrame(animate);
     } else {
@@ -130,22 +134,13 @@ $(function() {
     return rock.y > canvas.height - rockHeight;
   }
 
-  function drawHealth() {
-    var x = canvas.width - 200;
-    var y = 50;
-
-    for(var i = 0; i < health; i++) {
-      ctx.fillStyle = gameConfig.colors.green;
-      ctx.fillRect(x - i * 60, y, 50, 100);
-    }
-  }
-
   function decrementScore() {
     score -= 10;
     health -= 1;
 
     if(health === 0) {
       toggleSettings();
+
       $sharingButtons.addClass("sharing-buttons--active");
       $gameOverPopup.addClass("game-over-popup--active");
 
@@ -155,13 +150,17 @@ $(function() {
     }
   }
 
-  function drawAll() {
+  function clearBackground() {
     // clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // draw the background
     ctx.fillStyle = gameConfig.colors.dark_blue;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function drawAll() {
+    clearBackground();
 
     fretboard.draw();
 
@@ -194,7 +193,7 @@ $(function() {
       ctx.lineWidth = 1;
     }
 
-    drawHealth();
+    healthDrawer.draw(health);
 
     $score.text(score);
 
@@ -267,7 +266,7 @@ $(function() {
     animate();
   });
 
-  var toggleSettings = function() {
+  var toggleSettings = function(params) {
     $welcomePopup.toggleClass("welcome-popup--active");
 
     continueAnimating = !$welcomePopup.hasClass("welcome-popup--active");
@@ -290,11 +289,5 @@ $(function() {
     if(e.keyCode === 32) {
       toggleSettings();
     }
-  });
-
-  $toggleSettings.on("click", function(e) {
-    e.preventDefault();
-
-    toggleSettings();
   });
 });
