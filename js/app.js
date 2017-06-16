@@ -7,6 +7,19 @@ $(function() {
       $songSelect = $settings.find(".game-settings__song-select"),
       $stringSelect = $settings.find(".game-settings__string-select");
 
+  for(string in Strings) {
+    var $option = $("<option/>");
+    $option.val(string);
+    $option.text(Strings[string].name);
+
+    if(string === "1") {
+      $option.attr("selected", "selected");
+    }
+
+    $stringSelect.append($option);
+  }
+
+
   var $welcomePopup = $(".welcome-popup"),
       $startButton = $(".js-start"),
       $gameOverPopup = $(".game-over-popup"),
