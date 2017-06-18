@@ -22,8 +22,7 @@ $(function() {
 
   var $welcomePopup = $(".welcome-popup"),
       $startButton = $(".js-start"),
-      $gameOverPopup = $(".game-over-popup"),
-      $sharingButtons = $(".sharing-buttons");
+      $gameOverPopup = $(".game-over-popup");
 
   var songIndex, stringIndex, bpm;
 
@@ -154,7 +153,7 @@ $(function() {
     if(health === 0) {
       toggleSettings();
 
-      $sharingButtons.addClass("sharing-buttons--active");
+      $welcomePopup.removeClass("welcome-popup--active");
       $gameOverPopup.addClass("game-over-popup--active");
 
       $songSelect.val(songIndex);
@@ -258,7 +257,6 @@ $(function() {
 
   $startButton.on("click", function () {
     $welcomePopup.removeClass("welcome-popup--active");
-    $sharingButtons.removeClass("sharing-buttons--active");
     $gameOverPopup.removeClass("game-over-popup--active");
 
     var beatDuration = 60 / bpm;

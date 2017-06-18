@@ -204,7 +204,6 @@ html {
 
 .game-over-popup {
   display: none;
-  padding: 16px 24px;
   position: absolute;
   width: 700px;
   height: 500px;
@@ -212,14 +211,18 @@ html {
   margin-top: -250px;
   left: 50%;
   margin-left: -350px;
-
-  border-radius: 4px;
-
-  background-color: #F1FAEE;
 }
 
 .game-over-popup--active {
   display: block;
+}
+
+.game-over-popup__inner {
+  padding: 16px 24px;
+
+  border-radius: 4px;
+
+  background-color: #F1FAEE;
 }
 
 .game-over-popup__header {
@@ -245,28 +248,36 @@ html {
   margin-top: 20px;
 }
 
-.sharing-buttons {
-  display: none;
-  position: absolute;
-  width: 100%;
-  bottom: 20px;
-
-  text-align: center;
-}
-
-.sharing-buttons--active {
-  display: block;
+.game-over-popup__sharing-buttons {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .share-button {
   display: inline-block;
   padding: 20px 30px;
 
+  border-radius: 2px;
+
   font-family: 'Source Sans Pro', sans-serif;
-  font-size: 16px;
-  line-height: 20px;
-  color: #1D3557;
+  font-size: 18px;
+  line-height: 24px;
+  color: #F1FAEE;
   text-decoration: none;
+}
+
+.share-button:hover {
+  opacity: 0.9;
+}
+
+.share-button i {
+  margin-right: 4px;
+}
+
+.share-button + .share-button {
+  margin-left: 8px;
 }
 
 .share-button--fb {

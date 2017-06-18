@@ -15,6 +15,7 @@
   <script src="js/audio_processor.js" type="text/javascript" charset="utf-8" async defer></script>
   <script src="js/app.js" type="text/javascript" charset="utf-8" async defer></script>
   <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
 </head>
@@ -75,43 +76,53 @@
   </div>
 
   <div class="game-over-popup">
-    <h1 class="game-over-popup__header">
-      You've lost!
-    </h1>
+    <div class="game-over-popup__inner">
+      <h1 class="game-over-popup__header">
+        You've lost!
+      </h1>
 
-    <div class="game-over-popup__subheader">
-      Try lower BPM or select a new song!
+      <div class="game-over-popup__subheader">
+        Try lower BPM or select a new song!
+      </div>
+
+      <div class="game-over-popup__settings">
+        <div class="game-settings">
+          <label class="game-settings__bpm-input-label">
+            BPM
+            <input class="game-settings__bpm-input" type="number" value="30" />
+          </label>
+
+          <label class="game-settings__song-select-label">
+            Select a song
+            <select class="game-settings__song-select">
+            </select>
+          </label>
+
+          <label class="game-settings__string-select-label">
+            Select a string
+            <select class="game-settings__string-select">
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <button class="welcome-popup__start-button js-start">
+        START NEW GAME
+      </button>
     </div>
 
-    <div class="game-over-popup__settings">
-      <div class="game-settings">
-        <label class="game-settings__bpm-input-label">
-          BPM
-          <input class="game-settings__bpm-input" type="number" value="30" />
-        </label>
-
-        <label class="game-settings__song-select-label">
-          Select a song
-          <select class="game-settings__song-select">
-          </select>
-        </label>
-
-        <label class="game-settings__string-select-label">
-          Select a string
-          <select class="game-settings__string-select">
-          </select>
-        </label>
+    <div class="game-over-popup__sharing-buttons">
+      <div class="sharing-buttons">
+        <a href="#" class="share-button share-button--fb">
+          <i class="fa fa-facebook" aria-hidden="true"></i>
+          Share on Facebook
+        </a>
+        <a href="#" class="share-button share-button--tw">
+          <i class="fa fa-twitter" aria-hidden="true"></i>
+          Share on Twitter
+        </a>
       </div>
     </div>
-
-    <button class="welcome-popup__start-button js-start">
-      START NEW GAME
-    </button>
-  </div>
-
-  <div class="sharing-buttons">
-    <a href="#" class="share-button share-button--fb">Share on Facebook</a>
-    <a href="#" class="share-button share-button--tw">Share on Facebook</a>
   </div>
 </body>
 </html>
