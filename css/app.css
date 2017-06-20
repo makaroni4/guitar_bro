@@ -64,8 +64,6 @@ html {
 .game-settings {
   width: 300px;
   height: 100%;
-
-  background-color: #F1FAEE;
 }
 
 
@@ -80,8 +78,8 @@ html {
 
 .game-settings__bpm-input {
   display: block;
-  width: 250px;
   padding: 8px;
+  width: 100%;
 
   font-size: 24px;
   line-height: 32px;
@@ -101,7 +99,7 @@ html {
 .game-settings__song-select,
 .game-settings__string-select {
   display: block;
-  width: 250px;
+  width: 100%;
 
   background-color: #FFF;
 
@@ -110,26 +108,6 @@ html {
   text-decoration: none;
   font-size: 18px;
   line-height: 24px;
-}
-
-.game-settings__restart {
-  display: block;
-  padding: 16px 8px;
-  width: 250px;
-  margin-top: 20px;
-
-  border-radius: 2px;
-
-  background-color: #1D3557;
-
-  font-family: 'Source Sans Pro', sans-serif;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 24px;
-  color: #F1FAEE;
-  letter-spacing: 2px;
-  text-decoration: none;
-  text-align: center;
 }
 
 .real-guitar-hero__score {
@@ -148,7 +126,7 @@ html {
   left: 50%;
   margin-left: -350px;
 
-  border-radius: 4px;
+  border-radius: 2px;
 
   background-color: #F1FAEE;
 }
@@ -183,13 +161,13 @@ html {
 .welcome-popup__start-button {
   margin: 50px auto 0;
   display: block;
-  width: 300px;
-  padding: 10px 25px;
+  width: 350px;
+  padding: 20px 25px;
 
   border: none;
   border-radius: 2px;
 
-  background-color: #23F0C7;
+  background-color: #7C69F4;
 
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: bold;
@@ -220,9 +198,9 @@ html {
 .game-over-popup__inner {
   padding: 16px 24px;
 
-  border-radius: 4px;
+  border-radius: 2px;
 
-  background-color: #F1FAEE;
+  background-color: #E4EEFB;
 }
 
 .game-over-popup__header {
