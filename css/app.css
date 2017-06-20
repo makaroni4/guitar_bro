@@ -62,8 +62,7 @@ html {
 }
 
 .game-settings {
-  width: 300px;
-  height: 100%;
+  width: 100%;
 }
 
 
@@ -119,16 +118,12 @@ html {
   display: none;
   padding: 16px 24px;
   position: absolute;
-  width: 700px;
-  height: 500px;
-  top: 50%;
-  margin-top: -250px;
-  left: 50%;
-  margin-left: -350px;
+  width: 400px;
+  height: 100%;
+  top: 0;
+  right: 0;
 
-  border-radius: 2px;
-
-  background-color: #F1FAEE;
+  background-color: #E4EEFB;
 }
 
 .welcome-popup--active {
@@ -183,24 +178,22 @@ html {
 .game-over-popup {
   display: none;
   position: absolute;
-  width: 700px;
-  height: 500px;
-  top: 50%;
-  margin-top: -250px;
-  left: 50%;
-  margin-left: -350px;
+  width: 400px;
+  height: 100%;
+  top: 0;
+  right: 0;
+
+  background-color: #E4EEFB;
 }
 
 .game-over-popup--active {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .game-over-popup__inner {
   padding: 16px 24px;
-
-  border-radius: 2px;
-
-  background-color: #E4EEFB;
 }
 
 .game-over-popup__header {
@@ -233,15 +226,20 @@ html {
   justify-content: center;
 }
 
+.sharing-buttons {
+  display: flex;
+  margin-bottom: 20px;
+}
+
 .share-button {
   display: inline-block;
-  padding: 20px 30px;
+  padding: 10px 15px;
 
   border-radius: 2px;
 
   font-family: 'Source Sans Pro', sans-serif;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 20px;
   color: #F1FAEE;
   text-decoration: none;
 }
