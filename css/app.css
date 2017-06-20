@@ -99,6 +99,7 @@ html {
 .game-settings__string-select {
   display: block;
   width: 100%;
+  height: 52px;
 
   background-color: #FFF;
 
