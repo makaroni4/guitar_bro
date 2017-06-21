@@ -223,6 +223,8 @@ $(function() {
 
     processor.setString(stringIndex);
     processor.attached();
+  } else {
+    $(".welcome-popup__install-chrome").addClass("welcome-popup__install-chrome--active");
   }
 
   $(document).on("note_detected", function(event, note) {

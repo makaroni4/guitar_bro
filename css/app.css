@@ -176,6 +176,33 @@ html {
   cursor: pointer;
 }
 
+.welcome-popup__install-chrome {
+  display: none;
+  margin-top: 10px;
+
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  color: #1D3557;
+}
+
+.welcome-popup__install-chrome--active {
+  display: block;
+}
+
+.welcome-popup__install-chrome i {
+  color: red;
+}
+
+.welcome-popup__install-chrome a {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.welcome-popup__install-chrome a:hover {
+  text-decoration: underline;
+}
+
 .game-over-popup {
   display: none;
   position: absolute;
