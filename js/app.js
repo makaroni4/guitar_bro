@@ -218,10 +218,12 @@ $(function() {
   stringIndex = $stringSelect.val();
   bpm = $bpmInput.val();
 
-  var processor = new AudioProcessor();
+  if(getChromeVersion()) {
+    var processor = new AudioProcessor();
 
-  processor.setString(stringIndex);
-  processor.attached();
+    processor.setString(stringIndex);
+    processor.attached();
+  }
 
   $(document).on("note_detected", function(event, note) {
     var rockIndex = rocks.findIndex(function(r) {
@@ -271,7 +273,10 @@ $(function() {
       score = 0;
       health = 3;
       initRocks(songIndex);
-      processor.setString(stringIndex);
+
+      if(getChromeVersion()) {
+        processor.setString(stringIndex);
+      }
     }
 
     animate();

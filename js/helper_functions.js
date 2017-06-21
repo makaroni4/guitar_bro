@@ -13,3 +13,9 @@ function randInt(min, max, positive) {
 function pickRandom(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
+
+function getChromeVersion() {
+  var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+
+  return raw ? parseInt(raw[2], 10) : false;
+}
