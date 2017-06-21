@@ -79,6 +79,8 @@ function AudioProcessor() {
       requestAnimationFrame(that.dispatchAudioData);
 
     }, (err) => {
+      $(document).trigger("no_mic");
+
       console.log('Unable to access the microphone');
       console.log(err);
     });

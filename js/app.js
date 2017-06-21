@@ -225,7 +225,18 @@ $(function() {
     processor.attached();
   } else {
     $(".welcome-popup__install-chrome").addClass("welcome-popup__install-chrome--active");
+
+    showNoMic();
   }
+
+  function showNoMic() {
+    $(".no-sound").addClass("no-sound--active");
+    $(".audio-wave").removeClass("audio-wave--active");
+  }
+
+  $(document).on("no_mic", function() {
+    showNoMic();
+  });
 
   $(document).on("note_detected", function(event, note) {
     var rockIndex = rocks.findIndex(function(r) {

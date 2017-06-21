@@ -292,12 +292,15 @@ html {
   background-color: #4099FF;
 }
 
-#game-canvas {
-}
-
 .audio-wave {
+  display: none;
+
   width: 60px;
   height: 32px;
+}
+
+.audio-wave--active {
+  display: block;
 }
 
 path {
@@ -305,4 +308,16 @@ path {
   stroke-width: 1;
   fill: none;
   opacity: 0.5;
+}
+
+.no-sound {
+  display: none;
+  padding-top: 8px;
+
+  color: white;
+  font-size: 30px;
+}
+
+.no-sound--active {
+  display: block;
 }
