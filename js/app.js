@@ -101,6 +101,24 @@ $(function() {
     rocks.push(rock);
   }
 
+  function stopGame() {
+    ga("send", {
+      hitType: "event",
+      eventCategory: "Game",
+      eventAction: "Lost",
+      eventValue: correctNotes
+    });
+
+    toggleSettings();
+
+    $welcomePopup.removeClass("welcome-popup--active");
+    $gameOverPopup.addClass("game-over-popup--active");
+
+    $songSelect.val(songIndex);
+    $stringSelect.val(stringIndex);
+    $bpmInput.val(bpm);
+  }
+
   function animate() {
     if(health === 0 && !continueAnimating) {
       clearBackground();
@@ -127,14 +145,18 @@ $(function() {
         rock.y += rockSpeed;
 
         if (rock.y > canvas.height) {
-          if(!rock.highlightColor) {
+          if(rock.highlightColor) {
+            explosion.add(rock.x + rock.width / 2, canvas.height - 5, rock.highlightColor === gameConfig.colors.green);
+          } else {
             decrementScore();
           }
 
-          explosion.add(rock.x + rock.width / 2, canvas.height - 5, !!rock.highlightColor);
-
           rock.y = calculateRockY(i);
           rock.highlightColor = undefined;
+
+          if(health === 0) {
+            stopGame();
+          }
         }
       }
 
@@ -149,24 +171,6 @@ $(function() {
   function decrementScore() {
     score -= 10;
     health -= 1;
-
-    if(health === 0) {
-      ga("send", {
-        hitType: "event",
-        eventCategory: "Game",
-        eventAction: "Lost",
-        eventValue: correctNotes
-      });
-
-      toggleSettings();
-
-      $welcomePopup.removeClass("welcome-popup--active");
-      $gameOverPopup.addClass("game-over-popup--active");
-
-      $songSelect.val(songIndex);
-      $stringSelect.val(stringIndex);
-      $bpmInput.val(bpm);
-    }
   }
 
   function clearBackground() {
