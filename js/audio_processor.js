@@ -78,8 +78,12 @@ function AudioProcessor() {
 
       requestAnimationFrame(that.dispatchAudioData);
 
+      ga("send", "event", "Game", "MicEnabled");
+
       $(".allow-mic").removeClass("allow-mic--active");
     }, (err) => {
+      ga("send", "event", "Game", "MicDisabled");
+
       $(document).trigger("no_mic");
 
       $(".allow-mic").removeClass("allow-mic--active");

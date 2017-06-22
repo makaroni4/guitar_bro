@@ -50,6 +50,7 @@ $(function() {
   // game variables
   var continueAnimating = false,
       score = 0,
+      correctNotes = 0,
       health = 3;
 
   // block variables
@@ -151,6 +152,13 @@ $(function() {
     health -= 1;
 
     if(health === 0) {
+      ga("send", {
+        hitType: "event",
+        eventCategory: "Game",
+        eventAction: "Lost",
+        eventValue: correctNotes
+      });
+
       toggleSettings();
 
       $welcomePopup.removeClass("welcome-popup--active");
@@ -257,12 +265,17 @@ $(function() {
       return;
     }
 
+    if(rock.highlightColor) {
+      return;
+    }
+
     var correctAnswer = note === rock.note;
 
     fretboard.highlightFret(note, correctAnswer ? gameConfig.colors.green : gameConfig.colors.red);
 
     if(correctAnswer) {
       score += 10;
+      correctNotes += 1;
     } else {
       decrementScore();
     }
@@ -275,8 +288,11 @@ $(function() {
   $startButton.on("click", function () {
     ga("send", "event", "Game", "Start");
 
+    $(".allow-mic").removeClass("allow-mic--active");
     $welcomePopup.removeClass("welcome-popup--active");
     $gameOverPopup.removeClass("game-over-popup--active");
+
+    correctNotes = 0;
 
     var beatDuration = 60 / bpm;
 
