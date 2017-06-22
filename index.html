@@ -47,41 +47,55 @@
   </div>
 
   <div class="welcome-popup welcome-popup--active">
-    <h1 class="welcome-popup__header">
-      Welcome to Guitar Bro – guitar browser game with a real guitar!
-    </h1>
+    <div class="welcome-popup__body">
+      <h1 class="welcome-popup__header">
+        Welcome to Guitar Bro – guitar browser game with a real guitar!
+      </h1>
 
-    <div class="welcome-popup__subheader">
-      Pick up a string you want to play on (yep, it's "unitar").
-    </div>
+      <div class="welcome-popup__subheader">
+        Pick up a string you want to play on (yep, it's "unitar").
+      </div>
 
-    <div class="welcome-popup__settings">
-      <div class="game-settings">
-        <label class="game-settings__bpm-input-label">
-          BPM
-          <input class="game-settings__bpm-input" type="number" value="30" />
-        </label>
+      <div class="welcome-popup__settings">
+        <div class="game-settings">
+          <label class="game-settings__bpm-input-label">
+            BPM
+            <input class="game-settings__bpm-input" type="number" value="30" />
+          </label>
 
-        <label class="game-settings__song-select-label">
-          Select a song
-          <select class="game-settings__song-select">
-          </select>
-        </label>
+          <label class="game-settings__song-select-label">
+            Select a song
+            <select class="game-settings__song-select">
+            </select>
+          </label>
 
-        <label class="game-settings__string-select-label">
-          Select a string
-          <select class="game-settings__string-select">
-          </select>
-        </label>
+          <label class="game-settings__string-select-label">
+            Select a string
+            <select class="game-settings__string-select">
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <button class="welcome-popup__start-button js-start">
+        START NEW GAME
+      </button>
+
+      <div class="welcome-popup__install-chrome">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> To enjoy Guitar Bro you need to open this web page in <a href="https://www.google.com/chrome/browser/desktop/">Google Chrome</a>. It's the only browser now that supports sound analysis on the client (yep, there is no fancy servers – all magic happens here).
       </div>
     </div>
 
-    <button class="welcome-popup__start-button js-start">
-      START NEW GAME
-    </button>
+    <div class="welcome-popup__footer">
+      <a href="#">
+        <i class="fa fa-cogs" aria-hidden="true"></i>
+        How it works?
+      </a>
 
-    <div class="welcome-popup__install-chrome">
-      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> To enjoy Guitar Bro you need to open this web page in <a href="https://www.google.com/chrome/browser/desktop/">Google Chrome</a>. It's the only browser now that supports sound analysis on the client (yep, there is no fancy servers – all magic happens here).
+      <a href="https://github.com/makaroni4/real_guitar_hero">
+        <i class="fa fa-github" aria-hidden="true"></i>
+        Source Code
+      </a>
     </div>
   </div>
 

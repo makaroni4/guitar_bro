@@ -117,18 +117,37 @@ html {
 
 .welcome-popup {
   display: none;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 16px 24px;
   position: absolute;
   width: 400px;
   height: 100%;
   top: 0;
   right: 0;
+  z-index: 100;
 
   background-color: #E4EEFB;
 }
 
 .welcome-popup--active {
-  display: block;
+  display: flex;
+}
+
+.welcome-popup__footer {
+  text-align: right;
+}
+
+.welcome-popup__footer a {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  color: #1D3557;
+  text-decoration: none;
+}
+
+.welcome-popup__footer a + a {
+  margin-left: 15px;
 }
 
 .welcome-popup__header {
@@ -303,7 +322,7 @@ html {
   display: block;
 }
 
-path {
+.audio-wave path {
   stroke: #F1FAEE;
   stroke-width: 1;
   fill: none;
@@ -321,3 +340,5 @@ path {
 .no-sound--active {
   display: block;
 }
+
+.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
