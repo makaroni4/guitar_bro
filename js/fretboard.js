@@ -54,7 +54,7 @@ function Fretboard(canvas, songLoader, rockWidth, pegWidth) {
 
       if(typeof(highlightedFret) === "number") {
         ctx.fillStyle = highlightedColor;
-        ctx.fillRect(highlightedFret * rockWidth, block.y, rockWidth - pegWidth, rockWidth);
+        ctx.fillRect(highlightedFret * rockWidth + pegWidth, block.y, rockWidth, rockWidth);
       }
     },
     highlightFret: function(note, color) {

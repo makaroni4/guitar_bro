@@ -19,7 +19,6 @@ $(function() {
     $stringSelect.append($option);
   }
 
-
   var $welcomePopup = $(".welcome-popup"),
       $startButton = $(".js-start"),
       $gameOverPopup = $(".game-over-popup");
