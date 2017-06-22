@@ -271,6 +271,8 @@ $(function() {
   });
 
   $startButton.on("click", function () {
+    ga("send", "event", "Game", "Start");
+
     $welcomePopup.removeClass("welcome-popup--active");
     $gameOverPopup.removeClass("game-over-popup--active");
 
