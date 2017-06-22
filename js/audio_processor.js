@@ -67,7 +67,7 @@ function AudioProcessor() {
   var string;
   var that = this;
 
-  this.requestUserMedia = function () {
+  that.requestUserMedia = function () {
     navigator.getUserMedia({audio:true}, (stream) => {
       that.sendingAudioData = true;
       that.stream = stream;
@@ -100,25 +100,25 @@ function AudioProcessor() {
 
   this.onVisibilityChange = function() {
     if (document.hidden) {
-      this.sendingAudioData = false;
+      that.sendingAudioData = false;
 
-      if (this.stream) {
+      if (that.stream) {
         // Chrome 47+
-        this.stream.getAudioTracks().forEach((track) => {
+        that.stream.getAudioTracks().forEach((track) => {
           if ('stop' in track) {
             track.stop();
           }
         });
 
         // Chrome 46-
-        if ('stop' in this.stream) {
-          this.stream.stop();
+        if ('stop' in that.stream) {
+          that.stream.stop();
         }
       }
 
-      this.stream = null;
+      that.stream = null;
     } else {
-      this.requestUserMedia();
+      that.requestUserMedia();
     }
 
   }
