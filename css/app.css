@@ -14,6 +14,38 @@ html {
   box-sizing: inherit;
 }
 
+.allow-mic {
+  display: none;
+
+  background-color: transparent;
+}
+
+.allow-mic--active {
+  display: block;
+}
+
+.allow-mic__arrow {
+  position: absolute;
+  left: 408px;
+  top: 60px;
+  width: 60px;
+  height: 72px;
+
+  background-image: url("../img/allow_mic_arrow.png");
+  background-size: cover;
+}
+
+.allow-mic__message {
+  position: absolute;
+  width: 250px;
+  left: 330px;
+  top: 140px;
+
+  font-family: 'Kalam', cursive;
+  font-size: 24px;
+  color: #F1FAEE;
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -193,6 +225,10 @@ html {
 
   outline: none;
   cursor: pointer;
+}
+
+.welcome-popup__start-button:hover {
+  opacity: 0.9;
 }
 
 .welcome-popup__install-chrome {

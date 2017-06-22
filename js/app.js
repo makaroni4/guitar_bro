@@ -223,6 +223,8 @@ $(function() {
 
     processor.setString(stringIndex);
     processor.attached();
+
+    $(".allow-mic").addClass("allow-mic--active");
   } else {
     $(".welcome-popup__install-chrome").addClass("welcome-popup__install-chrome--active");
 

@@ -68,7 +68,7 @@ function AudioProcessor() {
   var that = this;
 
   that.requestUserMedia = function () {
-    navigator.getUserMedia({audio:true}, (stream) => {
+    navigator.getUserMedia({audio: true}, (stream) => {
       that.sendingAudioData = true;
       that.stream = stream;
       that.microphone = that.audioContext.createMediaStreamSource(stream);
@@ -78,8 +78,11 @@ function AudioProcessor() {
 
       requestAnimationFrame(that.dispatchAudioData);
 
+      $(".allow-mic").removeClass("allow-mic--active");
     }, (err) => {
       $(document).trigger("no_mic");
+
+      $(".allow-mic").removeClass("allow-mic--active");
 
       console.log('Unable to access the microphone');
       console.log(err);
