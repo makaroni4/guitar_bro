@@ -229,13 +229,15 @@ $(function() {
   stringIndex = $stringSelect.val();
   bpm = $bpmInput.val();
 
-  if(getChromeVersion()) {
+  if(getChromeVersion() > 57) {
     var processor = new AudioProcessor();
 
     processor.setString(stringIndex);
     processor.attached();
 
     $(".allow-mic").addClass("allow-mic--active");
+  } else if(getChromeVersion() < 58) {
+    $(".welcome-popup__update-chrome").addClass("welcome-popup__update-chrome--active");
   } else {
     $(".welcome-popup__install-chrome").addClass("welcome-popup__install-chrome--active");
 

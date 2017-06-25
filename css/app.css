@@ -231,7 +231,8 @@ html {
   opacity: 0.9;
 }
 
-.welcome-popup__install-chrome {
+.welcome-popup__install-chrome,
+.welcome-popup__update-chrome {
   display: none;
   margin-top: 10px;
 
@@ -241,20 +242,24 @@ html {
   color: #1D3557;
 }
 
-.welcome-popup__install-chrome--active {
+.welcome-popup__install-chrome--active,
+.welcome-popup__update-chrome--active {
   display: block;
 }
 
-.welcome-popup__install-chrome i {
+.welcome-popup__install-chrome i,
+.welcome-popup__update-chrome i {
   color: red;
 }
 
-.welcome-popup__install-chrome a {
+.welcome-popup__install-chrome a,
+.welcome-popup__update-chrome a {
   font-weight: bold;
   text-decoration: none;
 }
 
-.welcome-popup__install-chrome a:hover {
+.welcome-popup__install-chrome a:hover,
+.welcome-popup__update-chrome a:hover {
   text-decoration: underline;
 }
 
