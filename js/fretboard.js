@@ -1,4 +1,4 @@
-function Fretboard(canvas, songLoader, rockWidth, pegWidth) {
+function Fretboard(canvas, songLoader, string, rockWidth, pegWidth) {
   var ctx = canvas.getContext("2d"),
       blockHeight = rockWidth,
       block = {
@@ -31,7 +31,7 @@ function Fretboard(canvas, songLoader, rockWidth, pegWidth) {
     draw: function() {
       ctx.strokeStyle = gameConfig.colors.white;
       ctx.lineWidth = 1;
-      for(var i = 1; i < songLoader.notes.length; i++) {
+      for(var i = 1; i < gameConfig.strings[string].notes.length; i++) {
         var x = i * rockWidth + pegWidth;
         drawLine(x, block.y, x, canvas.height);
       }
@@ -58,7 +58,7 @@ function Fretboard(canvas, songLoader, rockWidth, pegWidth) {
       }
     },
     highlightFret: function(note, color) {
-      var fretIndex = songLoader.findNoteIndex(note);
+      var fretIndex = songLoader.findNoteIndex(note, string);
 
       highlightedFret = fretIndex;
       highlightedColor = color ? color : gameConfig.colors.yellow;

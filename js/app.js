@@ -23,7 +23,7 @@ $(function() {
       $startButton = $(".js-start"),
       $gameOverPopup = $(".game-over-popup");
 
-  var songIndex, stringIndex, bpm;
+  var songIndex, stringIndex, bpm, fretboard;
 
   // song loader
   var songLoader = new SongLoader();
@@ -34,6 +34,8 @@ $(function() {
       now,
       then,
       elapsed;
+
+  var gameIsOn = false;
 
   //canvas variables
   var canvas = document.getElementById("game-canvas");
@@ -63,11 +65,9 @@ $(function() {
   var eightsDurationDistance = rockHeight;
   var rocks = [];
 
-  var fretboard = new Fretboard(canvas, songLoader, rockWidth, pegWidth);
-
-  function initRocks(songIndex) {
+  function initRocks(songIndex, string) {
     rocks = [];
-    var song = songLoader.songs[songIndex];
+    var song = songLoader.loadSong(songIndex, string);
     var totalRocks = song.length;
 
     for (var i = 0; i < totalRocks; i++) {
@@ -93,7 +93,7 @@ $(function() {
 
     rock.note = song[rockIndex][0];
 
-    var noteIndex = songLoader.findNoteIndex(rock.note);
+    var noteIndex = songLoader.findNoteIndex(rock.note, stringIndex);
 
     rock.x = noteIndex * rockWidth + pegWidth;
     rock.y = calculateRockY(rockIndex);
@@ -117,6 +117,8 @@ $(function() {
     $songSelect.val(songIndex);
     $stringSelect.val(stringIndex);
     $bpmInput.val(bpm);
+
+    gameIsOn = false;
   }
 
   function animate() {
@@ -254,6 +256,10 @@ $(function() {
   });
 
   $(document).on("note_detected", function(event, note) {
+    if(!gameIsOn) {
+      return;
+    }
+
     var rockIndex = rocks.findIndex(function(r) {
       return r.y >= canvas.height - 2 * rockHeight;
     });
@@ -293,6 +299,8 @@ $(function() {
   $startButton.on("click", function () {
     ga("send", "event", "Game", "Start");
 
+    fretboard = new Fretboard(canvas, songLoader, stringIndex, rockWidth, pegWidth);
+
     $(".allow-mic").removeClass("allow-mic--active");
     $welcomePopup.removeClass("welcome-popup--active");
     $gameOverPopup.removeClass("game-over-popup--active");
@@ -308,9 +316,10 @@ $(function() {
     continueAnimating = !continueAnimating;
 
     if(continueAnimating) {
+      gameIsOn = true;
       score = 0;
-      health = 3;
-      initRocks(songIndex);
+      health = 5;
+      initRocks(songIndex, stringIndex);
 
       if(getChromeVersion()) {
         processor.setString(stringIndex);
@@ -324,6 +333,9 @@ $(function() {
     $welcomePopup.toggleClass("welcome-popup--active");
 
     continueAnimating = !$welcomePopup.hasClass("welcome-popup--active");
+
+    gameIsOn = continueAnimating;
+
     animate();
   }
 

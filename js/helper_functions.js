@@ -19,3 +19,9 @@ function getChromeVersion() {
 
   return raw ? parseInt(raw[2], 10) : false;
 }
+
+function randomArray(length, max) {
+  return Array.apply(null, Array(length)).map(function() {
+    return Math.round(Math.random() * max);
+  });
+}
