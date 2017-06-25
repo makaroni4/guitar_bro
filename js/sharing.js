@@ -1,12 +1,7 @@
-$(function() {
-  $(".share-button--fb").on("click", function(e) {
-    e.preventDefault();
+$(document).on("click", ".share-button", function(e) {
+  var $this = $(this);
 
-    FB.ui({
-      method: "share",
-      href: $("meta[property='og:url']").attr("content"),
-    }, function(response){
-      console.log("SHARED")
-    });
-  });
+  ga("send", "event", "Game", "Share", $this.data("eventLabel"));
+
+  $this.customerPopup(e);
 });
