@@ -52,7 +52,8 @@ $(function() {
   var continueAnimating = false,
       score = 0,
       correctNotes = 0,
-      health = 3;
+      MAX_HEALTH = 5,
+      health = MAX_HEALTH;
 
   // block variables
   var pegWidth = 1;
@@ -287,6 +288,10 @@ $(function() {
     if(correctAnswer) {
       score += 10;
       correctNotes += 1;
+
+      if(health < MAX_HEALTH) {
+        health += 1;
+      }
     } else {
       decrementScore();
     }
@@ -318,7 +323,7 @@ $(function() {
     if(continueAnimating) {
       gameIsOn = true;
       score = 0;
-      health = 5;
+      health = MAX_HEALTH;
       initRocks(songIndex, stringIndex);
 
       if(getChromeVersion()) {
