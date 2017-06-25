@@ -7,10 +7,10 @@ $(function() {
       $songSelect = $settings.find(".game-settings__song-select"),
       $stringSelect = $settings.find(".game-settings__string-select");
 
-  for(string in Strings) {
+  for(string in gameConfig.strings) {
     var $option = $("<option/>");
     $option.val(string);
-    $option.text(Strings[string].name);
+    $option.text(gameConfig.strings[string].name);
 
     if(string === "1") {
       $option.attr("selected", "selected");

@@ -1,44 +1,3 @@
-const Strings = {
-  1: {
-    name: "1. E-string (hightest)",
-    range : [325, 665],
-    freqs: [
-      [329.6, "E"],
-      [349.2, "F"],
-      [370.0, "F#"],
-      [392.0, "G"],
-      [415.3, "G#"],
-      [440.0, "A"],
-      [466.1, "A#"],
-      [493.8, "B"],
-      [523.2, "C"],
-      [554.3, "C#"],
-      [587.3, "D"],
-      [622.2, "D#"],
-      [659.2, "E"],
-    ]
-  },
-  6: {
-    name: "6. E-string (lowest)",
-    range : [75, 170],
-    freqs : [
-      [82.4, "E"],
-      [87.3, "F"],
-      [92.5, "F#"],
-      [98.0, "G"],
-      [103.8, "G#"],
-      [110.0, "A"],
-      [116.5, "A#"],
-      [123.5, "B"],
-      [130.8, "C"],
-      [138.6, "C#"],
-      [146.8, "D"],
-      [155.6, "D#"],
-      [164.8, "E"],
-      ]
-  }
-}
-
 // https://github.com/GoogleChrome/guitar-tuner
 function AudioProcessor() {
   this.FFTSIZE = 2048 * 4;
@@ -131,7 +90,7 @@ function AudioProcessor() {
   }
 
   this.setString = function(string_num){
-    string = Strings[string_num];
+    string = gameConfig.strings[string_num];
   }
 
   this.findNoteFreq = function(time) {
