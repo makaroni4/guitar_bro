@@ -13,7 +13,7 @@ function SongLoader() {
   });
 
   const songs = {
-    "Random notes": randomArray(12, 11).join("----"),
+    "Random notes": randomArray(12, 11).join("--------"),
     "Happy Birthday": "0-0-2--0--5-4----0-0-2--0----7-5----0-0-9--7-5-4--2-2----10-10-9--5--7-5",
     "Guess what": "0--3--5---0--3--6--5---0--3--5---3--0",
 
