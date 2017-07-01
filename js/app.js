@@ -101,6 +101,14 @@ $(function() {
     rocks.push(rock);
   }
 
+  function toggleMenuCopy(type) {
+    var $header = $sidebarMenu.find(".sidebar-menu__header"),
+        $subheader = $sidebarMenu.find(".sidebar-menu__subheader");
+
+    $header.text($header.data(type));
+    $subheader.text($subheader.data(type));
+  }
+
   function stopGame() {
     ga("send", {
       hitType: "event",
@@ -112,7 +120,7 @@ $(function() {
     toggleSettings();
 
     $sidebarMenu.addClass("sidebar-menu--active");
-    // TODO: change header and subheader
+    toggleMenuCopy("gameOverCopy");
 
     $songSelect.val(songIndex);
     $stringSelect.val(stringIndex);
@@ -305,6 +313,7 @@ $(function() {
 
     fretboard = new Fretboard(canvas, songLoader, stringIndex, rockWidth, pegWidth);
 
+    toggleMenuCopy("welcomeCopy");
     $(".allow-mic").removeClass("allow-mic--active");
     $sidebarMenu.removeClass("sidebar-menu--active");
 
