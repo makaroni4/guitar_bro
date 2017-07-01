@@ -19,7 +19,7 @@ $(function() {
     $stringSelect.append($option);
   }
 
-  var $welcomePopup = $(".welcome-popup"),
+  var $sidebarMenu = $(".sidebar-menu"),
       $startButton = $(".js-start"),
       $gameOverPopup = $(".game-over-popup");
 
@@ -112,7 +112,7 @@ $(function() {
 
     toggleSettings();
 
-    $welcomePopup.removeClass("welcome-popup--active");
+    $sidebarMenu.removeClass("sidebar-menu--active");
     $gameOverPopup.addClass("game-over-popup--active");
 
     $songSelect.val(songIndex);
@@ -240,9 +240,9 @@ $(function() {
 
     $(".allow-mic").addClass("allow-mic--active");
   } else if(getChromeVersion() < 58) {
-    $(".welcome-popup__update-chrome").addClass("welcome-popup__update-chrome--active");
+    $(".sidebar-menu__update-chrome").addClass("sidebar-menu__update-chrome--active");
   } else {
-    $(".welcome-popup__install-chrome").addClass("welcome-popup__install-chrome--active");
+    $(".sidebar-menu__install-chrome").addClass("sidebar-menu__install-chrome--active");
 
     showNoMic();
   }
@@ -307,7 +307,7 @@ $(function() {
     fretboard = new Fretboard(canvas, songLoader, stringIndex, rockWidth, pegWidth);
 
     $(".allow-mic").removeClass("allow-mic--active");
-    $welcomePopup.removeClass("welcome-popup--active");
+    $sidebarMenu.removeClass("sidebar-menu--active");
     $gameOverPopup.removeClass("game-over-popup--active");
 
     correctNotes = 0;
@@ -335,9 +335,9 @@ $(function() {
   });
 
   var toggleSettings = function(params) {
-    $welcomePopup.toggleClass("welcome-popup--active");
+    $sidebarMenu.toggleClass("sidebar-menu--active");
 
-    continueAnimating = !$welcomePopup.hasClass("welcome-popup--active");
+    continueAnimating = !$sidebarMenu.hasClass("sidebar-menu--active");
 
     gameIsOn = continueAnimating;
 

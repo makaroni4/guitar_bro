@@ -147,7 +147,7 @@ html {
   color: #0654C8;
 }
 
-.welcome-popup {
+.sidebar-menu {
   display: none;
   flex-direction: column;
   justify-content: space-between;
@@ -162,15 +162,15 @@ html {
   background-color: #E4EEFB;
 }
 
-.welcome-popup--active {
+.sidebar-menu--active {
   display: flex;
 }
 
-.welcome-popup__footer {
+.sidebar-menu__footer {
   text-align: right;
 }
 
-.welcome-popup__footer a {
+.sidebar-menu__footer a {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 16px;
   line-height: 20px;
@@ -178,11 +178,11 @@ html {
   text-decoration: none;
 }
 
-.welcome-popup__footer a + a {
+.sidebar-menu__footer a + a {
   margin-left: 15px;
 }
 
-.welcome-popup__header {
+.sidebar-menu__header {
   margin: 0;
   padding: 0;
 
@@ -192,7 +192,7 @@ html {
   color: #1D3557;
 }
 
-.welcome-popup__subheader {
+.sidebar-menu__subheader {
   margin-top: 20px;
 
   font-family: 'Source Sans Pro', sans-serif;
@@ -201,11 +201,11 @@ html {
   color: #1D3557;
 }
 
-.welcome-popup__settings {
+.sidebar-menu__settings {
   margin-top: 20px;
 }
 
-.welcome-popup__start-button {
+.sidebar-menu__start-button {
   margin: 50px auto 0;
   display: block;
   width: 350px;
@@ -227,12 +227,12 @@ html {
   cursor: pointer;
 }
 
-.welcome-popup__start-button:hover {
+.sidebar-menu__start-button:hover {
   opacity: 0.9;
 }
 
-.welcome-popup__install-chrome,
-.welcome-popup__update-chrome {
+.sidebar-menu__install-chrome,
+.sidebar-menu__update-chrome {
   display: none;
   margin-top: 10px;
 
@@ -242,24 +242,24 @@ html {
   color: #1D3557;
 }
 
-.welcome-popup__install-chrome--active,
-.welcome-popup__update-chrome--active {
+.sidebar-menu__install-chrome--active,
+.sidebar-menu__update-chrome--active {
   display: block;
 }
 
-.welcome-popup__install-chrome i,
-.welcome-popup__update-chrome i {
+.sidebar-menu__install-chrome i,
+.sidebar-menu__update-chrome i {
   color: red;
 }
 
-.welcome-popup__install-chrome a,
-.welcome-popup__update-chrome a {
+.sidebar-menu__install-chrome a,
+.sidebar-menu__update-chrome a {
   font-weight: bold;
   text-decoration: none;
 }
 
-.welcome-popup__install-chrome a:hover,
-.welcome-popup__update-chrome a:hover {
+.sidebar-menu__install-chrome a:hover,
+.sidebar-menu__update-chrome a:hover {
   text-decoration: underline;
 }
 
