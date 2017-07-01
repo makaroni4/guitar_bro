@@ -20,8 +20,7 @@ $(function() {
   }
 
   var $sidebarMenu = $(".sidebar-menu"),
-      $startButton = $(".js-start"),
-      $gameOverPopup = $(".game-over-popup");
+      $startButton = $sidebarMenu.find(".js-start");
 
   var songIndex, stringIndex, bpm, fretboard;
 
@@ -112,8 +111,8 @@ $(function() {
 
     toggleSettings();
 
-    $sidebarMenu.removeClass("sidebar-menu--active");
-    $gameOverPopup.addClass("game-over-popup--active");
+    $sidebarMenu.addClass("sidebar-menu--active");
+    // TODO: change header and subheader
 
     $songSelect.val(songIndex);
     $stringSelect.val(stringIndex);
@@ -308,7 +307,6 @@ $(function() {
 
     $(".allow-mic").removeClass("allow-mic--active");
     $sidebarMenu.removeClass("sidebar-menu--active");
-    $gameOverPopup.removeClass("game-over-popup--active");
 
     correctNotes = 0;
 
