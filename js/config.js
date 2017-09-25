@@ -9,7 +9,7 @@ var gameConfig = {
   },
   strings: {
     1: {
-      name: "1. E-string (hightest)",
+      name: "1. E-string (thinnest)",
       range: [325, 665],
       freqs: [
         [329.6, "E"],
@@ -104,7 +104,7 @@ var gameConfig = {
       ]
     },
     6: {
-      name: "6. E-string (lowest)",
+      name: "6. E-string (thickest)",
       range: [75, 170],
       freqs: [
         [82.4, "E"],
