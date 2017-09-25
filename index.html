@@ -88,6 +88,28 @@
             <select class="game-settings__string-select">
             </select>
           </label>
+
+          <div class="game-settings__mode-select">
+            <div class="game-settings__mode-select-label">
+              Select a mode
+            </div>
+
+            <div class="game-settings__mode-select-item">
+              <input type="radio" id="game-settings-survival-mode" name="game-mode-select" value="survival" checked>
+              <label for="game-settings-survival-mode" class="game-settings__mode-select-input">
+                Survival
+                <div class="game-settings__mode-select-hint">You start with 5 health (and get 1 health on correct note)</div>
+              </label>
+            </div>
+
+            <div class="game-settings__mode-select-item">
+              <input type="radio" id="game-settings-sandbox-mode" name="game-mode-select" value="sandbox" class="game-settings__mode-select-input">
+              <label for="game-settings-sandbox-mode" class="game-settings__mode-select-input">
+                Sandbox
+                <div class="game-settings__mode-select-hint">The game will stop when you stop it</div>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 

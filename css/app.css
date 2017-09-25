@@ -117,7 +117,8 @@ html {
 }
 
 .game-settings__song-select-label,
-.game-settings__string-select-label {
+.game-settings__string-select-label,
+.game-settings__mode-select-label {
   display: block;
   margin-top: 16px;
 
@@ -140,6 +141,23 @@ html {
   text-decoration: none;
   font-size: 18px;
   line-height: 24px;
+}
+
+.game-settings__mode-select {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #1D3557;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.game-settings__mode-select-hint {
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.game-settings__mode-select-item + .game-settings__mode-select-item {
+  margin-top: 10px;
 }
 
 .real-guitar-hero__score {

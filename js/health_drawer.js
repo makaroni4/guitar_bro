@@ -10,7 +10,11 @@ function HealthDrawer(ctx) {
   }
 
   return {
-    draw: function(health) {
+    draw: function(health, isSandboxMode) {
+      if(isSandboxMode) {
+        return;
+      }
+
       var prevFillStyle = ctx.fillStyle;
       var prevStrokeStyle = ctx.strojeStyle;
 

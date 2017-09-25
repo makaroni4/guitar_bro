@@ -5,7 +5,10 @@ $(function() {
   var $settings = $(".game-settings"),
       $bpmInput = $settings.find(".game-settings__bpm-input"),
       $songSelect = $settings.find(".game-settings__song-select"),
-      $stringSelect = $settings.find(".game-settings__string-select");
+      $stringSelect = $settings.find(".game-settings__string-select"),
+      $modeSelect = $settings.find("input:radio[name=game-mode-select]"),
+      isSandboxMode = $modeSelect.val() === "sandbox",
+      isSurvivalMode = !isSandboxMode;
 
   for(string in gameConfig.strings) {
     var $option = $("<option/>");
@@ -164,7 +167,7 @@ $(function() {
           rock.y = calculateRockY(i);
           rock.highlightColor = undefined;
 
-          if(health === 0) {
+          if(health === 0 && isSurvivalMode) {
             stopGame();
           }
         }
@@ -226,7 +229,7 @@ $(function() {
       ctx.lineWidth = 1;
     }
 
-    healthDrawer.draw(health);
+    healthDrawer.draw(health, isSandboxMode);
 
     $score.text(score);
 
@@ -309,7 +312,7 @@ $(function() {
   });
 
   $startButton.on("click", function () {
-    ga("send", "event", "Game", "Start");
+    ga("send", "event", "Game", "Start", isSandboxMode ? "sandbox" : "survival");
 
     fretboard = new Fretboard(canvas, songLoader, stringIndex, rockWidth, pegWidth);
 
@@ -362,6 +365,11 @@ $(function() {
   $bpmInput.on("change", function(e) {
     bpm = $(this).val();
   });
+
+  $modeSelect.on("change", function(e) {
+    isSandboxMode = $(this).val() === "sandbox",
+    isSurvivalMode = !isSandboxMode;
+  })
 
   $(document).on("keydown", function(e) {
     if(e.keyCode === 32 && elapsed) {
